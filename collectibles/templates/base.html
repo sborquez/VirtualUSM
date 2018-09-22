@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="icon" href="{% static 'img/di.png' %}">
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Apps title  -->
+    <title>{% block title %}Título{% endblock %} </title>
+  </head>
+  <body>
+    <!--content-->
+    {% block content %}
+    {% endblock %}
+
+    <!--js scripts-->
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>
