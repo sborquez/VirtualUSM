@@ -1,4 +1,4 @@
-# Intrucciones
+# Instrucciones
 
 El siguiente documento es una guía de como instalar los módulos
 para poder editar y ejecutar el servidor. 
