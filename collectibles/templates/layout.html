@@ -1,5 +1,4 @@
 <!doctype html>
-<html lang="en">
   <head>
     <!-- Add additional CSS in static file -->
     {% load static %}
@@ -16,12 +15,32 @@
     <title>{% block title %}Título{% endblock %} </title>
   </head>
   <body>
+    <!-- debug table, show context variables-->
+    {% if show_ctx %}
+    <div>
+        <h4>Table of context variables (ONLY DEBUG)</h4>
+        <table style="width:100%; border: 1px solid black;">
+          <tr>
+            <th>Variable</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>titulo</td><td>{{ titulo }}</td>
+          </tr>
+        {% block context_table_content %}
+        {% endblock %}
+        </table>
+    </div>
+    {% endif %}
+
     <!--content-->
     {% block content %}
     {% endblock %}
-
+  </body>
+  <footer>
     <!--js scripts-->
     {% block scripts %}
     {% endblock %}
-  </body>
+  </footer>
+
 </html>

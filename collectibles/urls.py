@@ -11,9 +11,7 @@ urlpatterns = [
     url(r"^/found/(?P<item_id>\d+)/?$", views.ItemView.as_view(), name="item"),
     url(r"^/congratulations/?$", views.CongratulationsView.as_view(), name="congrats"),
 
-    # Admins views
-    url(r"^/dashboard/?$", views.DashboardView.as_view(), name="dashboard"),
-    url(r"^/print/?$", views.ItemsView.as_view(), name="printer"),
+
 ]
 
 

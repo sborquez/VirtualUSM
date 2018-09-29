@@ -1,11 +1,25 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 
 {% load static %}
 
-{% block title %}About{% endblock %}
+{% block title %}Scan{% endblock %}
+
+<!--context table-->
+{% block context_table_content %}
+<tr>
+    <td>player</td><td>{{ player }}</td>
+</tr>
+<tr>
+    <td>player_id</td><td>{{ player_id }}</td>
+</tr>
+{% endblock %}
 
 <!--content-->
 {% block content %}
+    <div id="navBar">
+        <a href="{% url 'player' %}"> Perfil </a><br>
+        <a href="{% url 'map' %}"> Mapa </a><br>
+    </div>
 {% endblock %}
 
 <!--js scripts-->

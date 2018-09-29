@@ -1,11 +1,27 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 
 {% load static %}
 
-{% block title %}About{% endblock %}
+{% block title %}Comienza tu aventura{% endblock %}
+
+<!--context table-->
+{% block context_table_content %}
+<tr>
+    <td>titulo</td><td>{{ titulo }}</td>
+</tr>
+{% endblock %}
 
 <!--content-->
 {% block content %}
+    <div id="playerFrom">
+        {% url 'start' as start %}
+
+        <form action="{{ start }}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Comenzar">
+        </form>
+    </div>
 {% endblock %}
 
 <!--js scripts-->

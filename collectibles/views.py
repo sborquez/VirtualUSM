@@ -1,27 +1,48 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.views import View
-from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
+
+from .forms import PlayerFrom
+from .models import Player
+
+
+# Auxiliary functions
+def is_player(view_method):
+    """Decorator, check if the request is from a player"""
+
+    def new_view_method(self, request, **kwargs):
+        player_id = request.session.get("player_id", None)
+        if player_id is not None:
+            return view_method(self, request, **kwargs)
+        else:
+            return redirect('about')
+
+    return new_view_method
 
 
 # Create your views here.
 
-# Players Views
+# Index view
 class AboutView(View):
     """
-    GET: information about the game.
-    """
-    template_name = 'player/about.html'
+        GET: information about the game.
+        """
+    template_name = 'about.html'
+
+    @staticmethod
+    def get_context_data():
+        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+        return ctx
 
     def get(self, request):
         return render(
             request,
             AboutView.template_name,
-            context={'titulo': settings.NAME},
+            context=self.get_context_data()
         )
 
 
+# Players Views
 class StartView(View):
     """
     GET: initial point for any new player.
@@ -31,11 +52,41 @@ class StartView(View):
 
     template_name = 'player/start.html'
 
+    @staticmethod
+    def get_context_data():
+        ctx = {
+            'titulo': settings.NAME,
+            'form': PlayerFrom(),
+            "show_ctx": settings.DEBUG
+        }
+        return ctx
+
     def get(self, request):
-        return HttpResponse(f'START')
+        player_id = request.session.get("player_id", None)
+
+        # Is already playing?
+        if player_id is None:
+            return render(
+                request,
+                StartView.template_name,
+                context=StartView.get_context_data()
+            )
+        else:
+            return redirect('player')
 
     def post(self, request):
-        return redirect('player')
+        form = PlayerFrom(request.POST)
+        if form.is_valid():
+            # New DB instance
+            nick = form.cleaned_data["nick"]
+            new_player = Player.create(nick)
+            new_player.save()
+
+            # Save id player in session
+            request.session["player_id"] = new_player.player_id
+
+            return redirect('player')
+        return redirect('about')
 
 
 class PlayerView(View):
@@ -45,8 +96,25 @@ class PlayerView(View):
     """
     template_name = 'player/player.html'
 
+    @staticmethod
+    def get_context_data(player):
+        ctx = {
+            'titulo': settings.NAME,
+            'player_id': player.player_id,
+            'player': player,
+            # 'items': items,
+            'show_ctx': settings.DEBUG}
+        return ctx
+
+    @is_player
     def get(self, request):
-        return HttpResponse(f'Me')
+        player_id = request.session["player_id"]
+        player = Player.objects.get(player_id=player_id)
+        return render(
+            request,
+            PlayerView.template_name,
+            context=PlayerView.get_context_data(player)
+        )
 
 
 class ScanView(View):
@@ -57,8 +125,24 @@ class ScanView(View):
     """
     template_name = 'player/scan.html'
 
+    @staticmethod
+    def get_context_data(player):
+        ctx = {
+            'titulo': settings.NAME,
+            'player_id': player.player_id,
+            'player': player,
+            'show_ctx': settings.DEBUG}
+        return ctx
+
+    @is_player
     def get(self, request):
-        return HttpResponse(f"Scanner QR")
+        player_id = request.session.get["player_id"]
+        player = Player.objects.get(player_id=player_id)
+        return render(
+            request,
+            ScanView.template_name,
+            context=ScanView.get_context_data(player)
+        )
 
     def post(self, request):
         return redirect('item', itemId=0)
@@ -71,8 +155,24 @@ class MapView(View):
     """
     template_name = 'player/map.html'
 
-    def get(self, request, *args, **kwargs):
-        return HttpResponse(f"Soy el mapa")
+    @staticmethod
+    def get_context_data(player):
+        ctx = {
+            'titulo': settings.NAME,
+            'player_id': player.player_id,
+            'player': player,
+            'show_ctx': settings.DEBUG}
+        return ctx
+
+    @is_player
+    def get(self, request):
+        player_id = request.session.get("player_id", None)
+        player = Player.objects.get(player_id=player_id)
+        return render(
+            request,
+            MapView.template_name,
+            context=MapView.get_context_data(player)
+        )
 
 
 class CongratulationsView(View):
@@ -82,9 +182,17 @@ class CongratulationsView(View):
 
     template_name = 'player/congratulations.html'
 
+    def get_context_data(self):
+        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+        return ctx
+
+    @is_player
     def get(self, request):
-        return HttpResponse(
-            '<body><iframe width="560" height="315" src="https://www.youtube.com/embed/hf1DkBQRQj4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></body>')
+        return render(
+            request,
+            CongratulationsView.template_name,
+            context=self.get_context_data()
+        )
 
 
 class ItemView(View):
@@ -93,26 +201,14 @@ class ItemView(View):
     """
     template_name = 'player/item.html'
 
+    def get_context_data(self):
+        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+        return ctx
+
+    @is_player
     def get(self, request, item_id):
-        return HttpResponse(f"Soy el item {item_id}")
-
-
-# Admin's Views
-class DashboardView(View):
-    """
-    GET: display app stats
-    """
-    template_name = 'admin/dashboard.html'
-
-    def get(self, request):
-        return HttpResponse("Dashboard")
-
-
-class ItemsView(View):
-    """
-    Get: display a GUI to print item's QR
-    """
-    template_name = 'admin/print.html'
-
-    def get(self, request):
-        return HttpResponse("PRINT")
+        return render(
+            request,
+            ItemView.template_name,
+            context=self.get_context_data()
+        )

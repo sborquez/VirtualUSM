@@ -18,9 +18,16 @@ from django.urls import path, include
 
 from django.views.generic import RedirectView
 
+from collectibles import admin_views
+
 urlpatterns = [
+    # Admins customs views
+    path("admin/dashboard/", admin_views.dashboard, name="dashboard"),
+    path("admin/print/", admin_views.print_menu, name="printer"),
+
     # Admin urls
     path('admin/', admin.site.urls),
+
 
     # Collectibles urls start with app/
     path('app', include('collectibles.urls')),

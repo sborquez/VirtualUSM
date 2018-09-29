@@ -3,10 +3,13 @@ from django.conf import settings
 from random import choices
 
 
-# Create your models here
+# Auxiliary functions
 def key_generator():
+    """Generate a qr key"""
     return "".join(choices(settings.QR_LOCATION_ENCODE["chars"], k=settings.QR_LOCATION_ENCODE["length"]))
 
+
+# Create your models here
 class Location(models.Model):
     """
     Location is a places in the real world where the QR code is. It has items and a content.
@@ -78,21 +81,30 @@ class Item(models.Model):
         return self.name
 
 
-def id_generator():
-    "generate an unique new player id"
-    return "".join(choices(settings.ID_PLAYER_ENCODE["chars"], k=settings.ID_PLAYER_ENCODE["length"]))
-
-
 class Player(models.Model):
     """
     Player is a player, use cookie session system, it has an unique player id to identify it.
     """
 
     # unique player id
-    player_id = models.CharField(max_length=settings.ID_PLAYER_ENCODE["length"], unique=True, primary_key=True,
-                                 default=id_generator)
+    player_id = models.CharField(max_length=settings.ID_PLAYER_ENCODE["length"], unique=True, primary_key=True)
+    nick = models.CharField(max_length=15)
+    nick_suffix = models.CharField(max_length=5)
+    active = models.BooleanField(default=True)
 
-    nick = models.CharField(max_length=25)
+    @classmethod
+    def create(cls, nick, check=False):
+
+        nick_suffix = "".join(choices("1234567890", k=5))
+        player_id = "".join(choices(settings.ID_PLAYER_ENCODE["chars"], k=settings.ID_PLAYER_ENCODE["length"]))
+
+        while(check):
+            # TODO revisar si ya existe el id en la BD
+            check = False
+
+        new_player = cls(player_id=player_id, nick=nick, nick_suffix=nick_suffix)
+        return new_player
+
 
     def add_item(self, item):
         "add the item to the collection"
@@ -110,7 +122,7 @@ class Player(models.Model):
         pass
 
     def __str__(self):
-        return f"{self.nick}::{self.player_id}"
+        return f"{self.nick}::{self.nick_suffix}"
 
 
 class AcquiredItem(models.Model):
