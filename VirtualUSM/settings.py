@@ -142,3 +142,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Custom settings
 NAME = 'VirtualUSM'
 
+# Encoder generators
+if DEBUG:
+    QR_LOCATION_ENCODE = {"length": 5, "chars": "1234567890"}
+    ID_PLAYER_ENCODE = {"length": 5, "chars": "1234567890"}
+else:
+    QR_LOCATION_ENCODE = {"length": 64, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+    ID_PLAYER_ENCODE = {"length": 25, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+
