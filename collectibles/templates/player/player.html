@@ -12,10 +12,23 @@
 <tr>
     <td>player_id</td><td>{{ player_id }}</td>
 </tr>
+
+<tr>
+    <td>active</td><td>{{ player.active }}</td>
+</tr>
 {% endblock %}
 
 <!--content-->
 {% block content %}
+
+    <div id="delete_user">
+        {% url 'player' as player %}
+        <form action="{{ player }}" method="post">
+          {% csrf_token %}
+          <button type="submit">Eliminar cuenta</button><br>
+        </form>
+    </div>
+
     <div id="navBar">
         <a href="{% url 'scan' %}"> Scan </a><br>
         <a href="{% url 'map' %}"> Mapa </a><br>

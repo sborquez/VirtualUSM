@@ -1,11 +1,18 @@
 {% extends "layout.html" %}
 
 {% block title %}{{ titulo }}{% endblock %}
+{% block context_table_content %}
+<tr>
+    <td>player_id</td><td>{{ player_id }}</td>
+</tr>
+{% endblock %}
 
 <!--content-->
 {% block content %}
     {% load static %}
     <img src="{% static 'img/UTFSM.png' %}">
+
+    <a href="{% url 'start' %}"> Comienza aquí </a><br>
 {% endblock %}
 
 <!--js scripts-->

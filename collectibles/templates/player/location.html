@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}{{ location_name }}{% endblock %}
+
+<!--context table-->
+{% block context_table_content %}
+<tr>
+    <td>location</td><td>{{ location }}</td>
+</tr>
+<tr>
+    <td>location name</td><td>{{ location_name }}</td>
+</tr>
+<tr>
+    <td>location description</td><td>{{ location.description }}</td>
+</tr>
+<tr>
+    <td>content name</td><td>{{ content}}</td>
+</tr>
+<tr>
+    <td>content type</td><td>{{ content.content_type }}</td>
+</tr>
+<tr>
+    <td>content title</td><td>{{ content_title }}</td>
+</tr>
+<tr>
+    <td>content description</td><td>{{ content.description }}</td>
+</tr>
+<tr>
+    <td>content data </td><td>{{ content.content }}</td>
+</tr>
+{% endblock %}
+
+<!--content-->
+{% block content %}
+    <div id="navBar">
+        <a href="{% url 'scan' %}"> Scan </a><br>
+        <a href="{% url 'player' %}"> Perfil </a><br>
+        <a href="{% url 'map' %}"> Mapa </a><br>
+    </div>
+{% endblock %}
+
+<!--js scripts-->
+{% block scripts %}
+{% endblock %}

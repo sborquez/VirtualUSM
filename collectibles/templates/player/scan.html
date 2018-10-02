@@ -12,6 +12,9 @@
 <tr>
     <td>player_id</td><td>{{ player_id }}</td>
 </tr>
+<tr>
+    <td>active</td><td>{{ player.actives }}</td>
+</tr>
 {% endblock %}
 
 <!--content-->
@@ -20,6 +23,19 @@
         <a href="{% url 'player' %}"> Perfil </a><br>
         <a href="{% url 'map' %}"> Mapa </a><br>
     </div>
+
+    <div id="scanner">
+        {% url 'scan' as scan %}
+
+        <form action="{{ scan }}" method="post">
+            {% csrf_token %}
+            Contenido del código QR:<br>
+              <input type="text" name="qr_content" placeholder="{{ titulo }}::abcd1234">
+              <br>
+              <input type="submit" value="Scan">
+        </form>
+    </div>
+
 {% endblock %}
 
 <!--js scripts-->

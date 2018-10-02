@@ -3,7 +3,7 @@ from django.views import View
 from django.conf import settings
 
 from .forms import PlayerFrom
-from .models import Player
+from .models import Player, Location, Item
 
 
 # Auxiliary functions
@@ -12,12 +12,21 @@ def is_player(view_method):
 
     def new_view_method(self, request, **kwargs):
         player_id = request.session.get("player_id", None)
-        if player_id is not None:
+        # Player exist and is playing
+        if player_id is not None and Player.objects.filter(player_id=player_id, active=True).exists():
             return view_method(self, request, **kwargs)
         else:
-            return redirect('about')
-
+            respond = redirect('about')
+            # TODO mostrar mensaje de error
+            respond = add_get_variables(respond, error="log")
+            return respond
     return new_view_method
+
+
+def add_get_variables(respond, **kwargs):
+    variables = "&".join([f"{key}={value}" for key, value in kwargs.items()])
+    respond["Location"] += f"?{variables}"
+    return respond
 
 
 # Create your views here.
@@ -26,19 +35,21 @@ def is_player(view_method):
 class AboutView(View):
     """
         GET: information about the game.
-        """
+    """
+
     template_name = 'about.html'
 
     @staticmethod
-    def get_context_data():
-        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+    def get_context_data(player_id):
+        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG, "player_id": player_id}
         return ctx
 
     def get(self, request):
+        player_id = request.session.get("player_id", 0)
         return render(
             request,
             AboutView.template_name,
-            context=self.get_context_data()
+            context=AboutView.get_context_data(player_id)
         )
 
 
@@ -53,7 +64,7 @@ class StartView(View):
     template_name = 'player/start.html'
 
     @staticmethod
-    def get_context_data():
+    def get_context_data(player_id):
         ctx = {
             'titulo': settings.NAME,
             'form': PlayerFrom(),
@@ -86,7 +97,9 @@ class StartView(View):
             request.session["player_id"] = new_player.player_id
 
             return redirect('player')
-        return redirect('about')
+        respond = redirect('about')
+        respond = add_get_variables(respond, error="invalid")
+        return respond
 
 
 class PlayerView(View):
@@ -102,12 +115,16 @@ class PlayerView(View):
             'titulo': settings.NAME,
             'player_id': player.player_id,
             'player': player,
-            # 'items': items,
+            #'items': items,
             'show_ctx': settings.DEBUG}
         return ctx
 
     @is_player
     def get(self, request):
+
+        # TODO listar items
+        # TODO Mostrar avance o posicion en la tabla
+
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         return render(
@@ -115,6 +132,20 @@ class PlayerView(View):
             PlayerView.template_name,
             context=PlayerView.get_context_data(player)
         )
+
+    @is_player
+    def post(self, request):
+        """ Delete active player"""
+        player_id = request.session["player_id"]
+        player = Player.objects.get(player_id=player_id)
+        player.deactivate()
+
+        del request.session["player_id"]
+
+        respond = redirect("about")
+        # TODO mostrar mensaje de logout
+        respond = add_get_variables(respond, logout="success")
+        return respond
 
 
 class ScanView(View):
@@ -136,7 +167,7 @@ class ScanView(View):
 
     @is_player
     def get(self, request):
-        player_id = request.session.get["player_id"]
+        player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         return render(
             request,
@@ -144,8 +175,29 @@ class ScanView(View):
             context=ScanView.get_context_data(player)
         )
 
+    @is_player
     def post(self, request):
-        return redirect('item', itemId=0)
+        location = Location.get_from_QR(request.POST["qr_content"])
+        # Is a valid QR code
+        if location is not None:
+            player = Player.objects.get(player_id=request.session["player_id"])
+            item = location.get_item()
+            respond = redirect('location', location_name=location.name.replace(" ", "_"))
+            # if a new item was added
+            # Add a new get variable to display a success message in the next view
+            if player.add_item(item):
+                respond = add_get_variables(respond, added="true")
+            else:
+                respond = add_get_variables(respond, added="false")
+            return respond
+
+        # Is not a valid QR code
+        else:
+            respond = redirect('scan')
+            # add a get variable to display invalid qr
+            # TODO mostrar mensaje de success
+            respond = add_get_variables(respond, error="noqr")
+            return respond
 
 
 class MapView(View):
@@ -166,7 +218,7 @@ class MapView(View):
 
     @is_player
     def get(self, request):
-        player_id = request.session.get("player_id", None)
+        player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         return render(
             request,
@@ -182,33 +234,62 @@ class CongratulationsView(View):
 
     template_name = 'player/congratulations.html'
 
-    def get_context_data(self):
+    @staticmethod
+    def get_context_data():
         ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
         return ctx
 
     @is_player
     def get(self, request):
+        # TODO determinar si efectivamente el jugador ha ganado
         return render(
             request,
             CongratulationsView.template_name,
-            context=self.get_context_data()
+            context=self.get_context_data
         )
 
 
-class ItemView(View):
+class LocationView(View):
     """
     GET: display item, information about the place and the collectible
     """
-    template_name = 'player/item.html'
+    template_name = 'player/location.html'
 
-    def get_context_data(self):
-        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+    @staticmethod
+    def get_context_data(location, content):
+        ctx = {'titulo': settings.NAME,
+               "show_ctx": settings.DEBUG,
+               "location": location,
+               "location_name": location.name.title(),
+               "content": content,
+               "content_title": content.title.title(),
+              }
         return ctx
 
     @is_player
-    def get(self, request, item_id):
-        return render(
-            request,
-            ItemView.template_name,
-            context=self.get_context_data()
-        )
+    def get(self, request, location_name):
+        location = Location.get_from_name(location_name)
+
+        # valid location name
+        if location:
+            # check if user already scan its qr code
+            player_id = request.session["player_id"]
+            player = Player.objects.get(player_id=player_id)
+
+            if player.has_location(location):
+                # show location and item
+                content = location.get_content()
+                return render(
+                    request,
+                    LocationView.template_name,
+                    context=LocationView.get_context_data(location, content)
+                )
+        # invalid location name or player didn't scan qr code yet
+        respond = redirect("player")
+        # TODO mostrar mensaje de error
+        respond = add_get_variables(respond, error="loc")
+        return respond
+
+
+
+

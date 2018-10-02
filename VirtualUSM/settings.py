@@ -141,6 +141,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Custom settings
 NAME = 'VirtualUSM'
+LOCATIONS = 10
 
 # Encoder generators
 if DEBUG:
