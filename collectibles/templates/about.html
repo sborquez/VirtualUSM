@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}{{ titulo }}{% endblock %}
+
+
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+
 {% block context_table_content %}
 <tr>
     <td>player_id</td><td>{{ player_id }}</td>
@@ -9,10 +17,92 @@
 
 <!--content-->
 {% block content %}
-    {% load static %}
-    <img src="{% static 'img/UTFSM.png' %}">
+    <div class="splash-img"></div>
+    <div class="splash-container">
+        <div class="splash">
+                <h1 class="splash-head">{{ titulo }}</h1>
+                <p style="color:black">Insertar icono de promo</p>
+        </div>
+    </div>
 
-    <a href="{% url 'start' %}"> Comienza aquí </a><br>
+    <div class="content-wrapper">
+        <a class="arrow-wrap" href="#content"><span class="arrow"></span></a>
+        <div class="content" id="content">
+            <h2 class="content-head is-center">¿Qué es "{{ titulo }}"?</h2>
+
+            <b>¡Bienvenido juven entusiasta!</b>  ¿Listo para comenzar una nueva aventura? ... rellanar con frases cliché
+
+            <div class="pure-g">
+                <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        <i class="fa fa-mobile"></i>
+                        Explora
+                    </h3>
+                    <p>
+                        Recorre los diferentes lugares icónicos de Casa Central en busca de los escurridizos "item" ...
+                    </p>
+                </div>
+                <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        <i class="fa fa-search"></i>
+                        Descubre
+                    </h3>
+                    <p>
+                        Con cada nuevo "item" que encuentres descubrirás y aprenderás sobre nuestra casa de estudio, carrera Ing Civil Informática y más.
+                    </p>
+                </div>
+                <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                    <h3 class="content-subhead">
+                        <i class="fa fa-check-square-o"></i>
+                        Colecciona
+                    </h3>
+                    <p>
+                        Por cada "item" que visites añadirás a tu colección un nuevo "item", existen <b>{{ total_locations }}</b> dispersos por la universidad. ¡Vamos, coleccionalos a todos!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ribbon l-box-lrg pure-g">
+            <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
+                <p>Insertar imagen de algun codigo qr ya impreso</p>
+                <img width="300" alt="File Icons" class="pure-img-responsive" src="img/common/file-icons.png">
+            </div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
+
+                <h2 class="content-head content-head-ribbon">bla ble bli.</h2>
+
+                <p>
+                    bla bla bla. Y no te olvides de visitar a <b>la ruta Informática</b>.
+                </p>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2 class="content-head is-center">Que comience la busqueda!</h2>
+            <div class="pure-g">
+                <div class="l-box-lrg pure-u-1 pure-u-md-2-5" style="margin: 0 auto; text-align: center">
+                            <a href="{% url 'start' %}" class="button-xlarge pure-button pure-button-active">
+                                <i class="fa fa-play fa-lg"></i>
+                                  Comenzar
+                            </a>
+                </div>
+
+                <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
+                    <h4>Siguenos en nuestras redes sociales</h4>
+                    <p>
+                        Ponga aqui las redes sociales de promo y algún icono
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer l-box is-center">
+            Hecho con amor y café para promo
+        </div>
+
+        </div>
 {% endblock %}
 
 <!--js scripts-->

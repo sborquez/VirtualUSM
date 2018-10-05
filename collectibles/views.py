@@ -13,12 +13,19 @@ def is_player(view_method):
     def new_view_method(self, request, **kwargs):
         player_id = request.session.get("player_id", None)
         # Player exist and is playing
-        if player_id is not None and Player.objects.filter(player_id=player_id, active=True).exists():
-            return view_method(self, request, **kwargs)
+        if player_id is not None:
+            if Player.objects.filter(player_id=player_id, active=True).exists():
+                return view_method(self, request, **kwargs)
+            else:
+                del request.session["player_id"]
+                respond = redirect('about')
+                # TODO mostrar mensaje de error
+                respond = add_get_variables(respond, error="deactivate_player")
+                return respond
         else:
             respond = redirect('about')
             # TODO mostrar mensaje de error
-            respond = add_get_variables(respond, error="log")
+            respond = add_get_variables(respond, error="no_player")
             return respond
     return new_view_method
 
@@ -41,7 +48,10 @@ class AboutView(View):
 
     @staticmethod
     def get_context_data(player_id):
-        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG, "player_id": player_id}
+        ctx = {'titulo': settings.NAME,
+               "show_ctx": settings.DEBUG,
+               "player_id": player_id,
+               "total_locations": settings.LOCATIONS}
         return ctx
 
     def get(self, request):
@@ -64,7 +74,7 @@ class StartView(View):
     template_name = 'player/start.html'
 
     @staticmethod
-    def get_context_data(player_id):
+    def get_context_data():
         ctx = {
             'titulo': settings.NAME,
             'form': PlayerFrom(),

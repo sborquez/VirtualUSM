@@ -128,8 +128,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
-STATIC_URL = STATIC_HOST + '/static/'
+STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', 'www.labcomp.cl/~sborquez')
+USE_STATIC_HOST = os.environ.get('DJANGO_USE_HOST', default=False, cast=bool)
+if USE_STATIC_HOST:
+    STATIC_URL = STATIC_HOST + '/static/'
+else:
+    STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
@@ -141,7 +145,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Custom settings
 NAME = 'VirtualUSM'
-LOCATIONS = 10
+LOCATIONS = 20
 
 # Encoder generators
 if DEBUG:

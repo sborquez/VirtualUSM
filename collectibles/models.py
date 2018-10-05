@@ -108,7 +108,10 @@ class Item(models.Model):
     """
     Item is a collectible, it has a unique QR key to generate QR
     """
-    name = models.CharField(max_length=124, unique=True)
+    name = models.CharField(max_length=20, unique=True)
+    description = models.TextField(max_length=124, null=True)
+
+    icon_path = models.CharField(max_length=50, default="img/di.png")
 
     # TODO: Podemos usar coordenas si es que hay tiempo, por ahora solo una descripcion
     location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
