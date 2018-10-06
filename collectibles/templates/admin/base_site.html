@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% block title %} Virtual USM - admin{% endblock %}
+{% block title %} {{ str_app }} - admin{% endblock %}
 
 
 {% block extrastyle %}
@@ -9,6 +9,7 @@
 <style>
     #header {
         background-color: #f18e00;
+        height: auto !important;
     }
     #branding h1 a:visited {
         color: #fbfdff;
@@ -19,11 +20,10 @@
 
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">VirtualUSM administration</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Sitio de administrador</a></h1>
 {% endblock %}
 
 {% block nav-global %}
     <br>
-    <hr>
     <h5 ><a href="{% url 'admin:index' %}">Models</a> | <a href="{% url 'dashboard' %}">Dashboard</a> | <a href="{% url 'printer' %}">QR generator</a></h5>
 {% endblock %}

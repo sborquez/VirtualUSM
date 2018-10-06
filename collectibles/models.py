@@ -73,7 +73,7 @@ class Location(models.Model):
         pass
 
     def __str__(self):
-        return f"{self.name.title()}: {self.description}"
+        return f"{self.name.title()}"
 
 
 class Content(models.Model):
@@ -112,7 +112,7 @@ class Item(models.Model):
     description = models.TextField(max_length=124, null=True)
 
     # TODO cambiar a tipo url
-    icon_path = models.CharField(max_length=50, default="img/di.png")
+    icon_path = models.CharField(max_length=150, default="img/di.png")
 
     # TODO: Podemos usar coordenas si es que hay tiempo, por ahora solo una descripcion
     location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
