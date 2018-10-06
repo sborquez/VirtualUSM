@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Apps title  -->
-    <title>{% block title %}Título{% endblock %} </title>
+    <title>{% block title %} {{ str_app }}{% endblock %} </title>
   </head>
   <body>
     <!--content-->
@@ -29,7 +29,7 @@
     {% endblock %}
 
     <!-- debug table, show context variables-->
-    {% if show_ctx and False%}
+    {% if bool_show_ctx and False%}
     <div>
         <h4>Table of context variables (ONLY DEBUG)</h4>
         <table style="width:100%; border: 1px solid black;">
@@ -38,7 +38,7 @@
             <th>Value</th>
           </tr>
           <tr>
-            <td>titulo</td><td>{{ titulo }}</td>
+            <td>app</td><td>{{ str_app }}</td>
           </tr>
         {% block context_table_content %}
         {% endblock %}

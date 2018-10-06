@@ -20,7 +20,9 @@
     <div class="splash-img"></div>
     <div class="splash-container">
         <div class="splash">
-                <h1 class="splash-head">{{ titulo }}</h1>
+                <h1 class="splash-head">{{ str_app }}</h1>
+                <!-- TODO: Insertar icono de promo 1 -->
+                <img width="100" alt="File Icons" class="pure-img-responsive" src="{% static 'img/di.png' %}">
                 <p style="color:black">Insertar icono de promo</p>
         </div>
     </div>
@@ -28,18 +30,20 @@
     <div class="content-wrapper">
         <a class="arrow-wrap" href="#content"><span class="arrow"></span></a>
         <div class="content" id="content">
-            <h2 class="content-head is-center">¿Qué es "{{ titulo }}"?</h2>
+            <h2 class="content-head is-center">¿Qué es "{{ str_app }}"?</h2>
 
+            <!-- TODO: Agregar bienvendida -->
             <b>¡Bienvenido juven entusiasta!</b>  ¿Listo para comenzar una nueva aventura? ... rellanar con frases cliché
 
             <div class="pure-g">
+                <!-- TODO: Agregar mejor descripocion -->
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
                     <h3 class="content-subhead">
                         <i class="fa fa-mobile"></i>
                         Explora
                     </h3>
                     <p>
-                        Recorre los diferentes lugares icónicos de Casa Central en busca de los escurridizos "item" ...
+                        Recorre los diferentes lugares icónicos de Casa Central en busca de los escurridizos <b>{{ str_items }}</b> ...
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
@@ -48,7 +52,7 @@
                         Descubre
                     </h3>
                     <p>
-                        Con cada nuevo "item" que encuentres descubrirás y aprenderás sobre nuestra casa de estudio, carrera Ing Civil Informática y más.
+                        Con cada nuevo <b>{{ str_item }}</b> que encuentres descubrirás y aprenderás sobre nuestra casa de estudio, carrera Ing Civil Informática y más.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
@@ -57,7 +61,7 @@
                         Colecciona
                     </h3>
                     <p>
-                        Por cada "item" que visites añadirás a tu colección un nuevo "item", existen <b>{{ total_locations }}</b> dispersos por la universidad. ¡Vamos, coleccionalos a todos!
+                        Existen <b>{{ int_total_locations }} diferentes {{ str_items }}</b> dispersos por la universidad. ¡Vamos, coleccionalos a todos!
                     </p>
                 </div>
             </div>
@@ -65,15 +69,16 @@
 
         <div class="ribbon l-box-lrg pure-g">
             <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
+                <!-- TODO: Insertar imagen de codigos -->
+                <img width="300" alt="File Icons" class="pure-img-responsive" src="{% static 'img/di.png' %}">
                 <p>Insertar imagen de algun codigo qr ya impreso</p>
-                <img width="300" alt="File Icons" class="pure-img-responsive" src="img/common/file-icons.png">
+
             </div>
             <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
 
-                <h2 class="content-head content-head-ribbon">bla ble bli.</h2>
-
+                <h2 class="content-head content-head-ribbon">ASd sdad asda sd.</h2>
                 <p>
-                    bla bla bla. Y no te olvides de visitar a <b>la ruta Informática</b>.
+                    bla bla bla. \(*o*)/ Y no te olvides de visitar a <b>la ruta Informática</b>.
                 </p>
             </div>
         </div>
@@ -90,6 +95,7 @@
 
                 <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
                     <h4>Siguenos en nuestras redes sociales</h4>
+                    <!-- TODO: Insertar redes sociales -->
                     <p>
                         Ponga aqui las redes sociales de promo y algún icono
                     </p>
@@ -99,10 +105,11 @@
         </div>
 
         <div class="footer l-box is-center">
+            <!-- TODO: Insertar redes sociales -->
             Hecho con amor y café para promo
         </div>
 
-        </div>
+    </div>
 {% endblock %}
 
 <!--js scripts-->

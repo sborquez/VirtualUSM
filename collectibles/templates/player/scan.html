@@ -38,7 +38,7 @@
         <form action="{{ scan }}" method="post">
             {% csrf_token %}
             Contenido del código QR:<br>
-              <input type="text" name="qr_content" placeholder="{{ titulo }}::abcd1234">
+              <input type="text" name="qr_content" placeholder="{{ str_app }}::abcd1234">
               <br>
               <input type="submit" value="Scan">
         </form>

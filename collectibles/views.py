@@ -6,16 +6,40 @@ from .forms import PlayerFrom
 from .models import Player, Location, Item
 
 
-# Auxiliary functions
-def is_player(view_method):
-    """Decorator, check if the request is from a player"""
+# Auxiliary decorators
+def basic_context_data(prepare_context_data):
+    """
+        Add basic data to all Views.get_context_data()
+    """
+    basic_ctx = {
+        'str_app': settings.CLIENT.app,
+        'str_item': settings.CLIENT.item,
+        'str_items': settings.CLIENT.items,
+        'int_total_locations': settings.CLIENT.locations,
 
-    def new_view_method(self, request, **kwargs):
+        'bool_show_ctx': settings.DEBUG,
+    }
+
+    def _new_view_method(**kwargs):
+        ctx = prepare_context_data(**kwargs)
+        return {**ctx, **basic_ctx}
+    return _new_view_method
+
+
+def is_player(view_request_handler):
+    """
+        Check if the request is from a player.
+
+        Add the functionality of checking the client session variables. If the request is not from a player, it
+        redirected to AboutView.
+    """
+
+    def _new_view_method(request, **kwargs):
         player_id = request.session.get("player_id", None)
         # Player exist and is playing
         if player_id is not None:
             if Player.objects.filter(player_id=player_id, active=True).exists():
-                return view_method(self, request, **kwargs)
+                return view_request_handler(request, **kwargs)
             else:
                 del request.session["player_id"]
                 respond = redirect('about')
@@ -27,10 +51,16 @@ def is_player(view_method):
             # TODO mostrar mensaje de error
             respond = add_get_variables(respond, error="no_player")
             return respond
-    return new_view_method
+    return _new_view_method
 
 
+# auxiliaries functions
 def add_get_variables(respond, **kwargs):
+    """
+    Add the pair key:value form kwargs to a GET respond.
+
+    This add variables to the url.
+    """
     variables = "&".join([f"{key}={value}" for key, value in kwargs.items()])
     respond["Location"] += f"?{variables}"
     return respond
@@ -47,14 +77,15 @@ class AboutView(View):
     template_name = 'about.html'
 
     @staticmethod
-    def get_context_data(player_id):
-        ctx = {'titulo': settings.NAME,
-               "show_ctx": settings.DEBUG,
-               "player_id": player_id,
-               "total_locations": settings.LOCATIONS}
+    @add_get_variables
+    def prepare_context_data(player_id):
+        ctx = {
+            "player_id": player_id,
+        }
         return ctx
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         player_id = request.session.get("player_id", 0)
         return render(
             request,
@@ -74,15 +105,15 @@ class StartView(View):
     template_name = 'player/start.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data():
         ctx = {
-            'titulo': settings.NAME,
             'form': PlayerFrom(),
-            "show_ctx": settings.DEBUG
         }
         return ctx
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         player_id = request.session.get("player_id", None)
 
         # Is already playing?
@@ -95,7 +126,8 @@ class StartView(View):
         else:
             return redirect('player')
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         form = PlayerFrom(request.POST)
         if form.is_valid():
             # New DB instance
@@ -120,17 +152,17 @@ class PlayerView(View):
     template_name = 'player/player.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data(player):
         ctx = {
-            'titulo': settings.NAME,
             'player_id': player.player_id,
-            'player': player,
-            #'items': items,
-            'show_ctx': settings.DEBUG}
+            'player': player,          #'items': items,
+        }
         return ctx
 
+    @staticmethod
     @is_player
-    def get(self, request):
+    def get(request):
 
         # TODO listar items
         # TODO Mostrar avance o posicion en la tabla
@@ -143,8 +175,9 @@ class PlayerView(View):
             context=PlayerView.get_context_data(player)
         )
 
+    @staticmethod
     @is_player
-    def post(self, request):
+    def post(request):
         """ Delete active player"""
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
@@ -167,16 +200,17 @@ class ScanView(View):
     template_name = 'player/scan.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data(player):
         ctx = {
-            'titulo': settings.NAME,
             'player_id': player.player_id,
             'player': player,
-            'show_ctx': settings.DEBUG}
+        }
         return ctx
 
+    @staticmethod
     @is_player
-    def get(self, request):
+    def get(request):
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         return render(
@@ -185,8 +219,9 @@ class ScanView(View):
             context=ScanView.get_context_data(player)
         )
 
+    @staticmethod
     @is_player
-    def post(self, request):
+    def post(request):
         location = Location.get_from_QR(request.POST["qr_content"])
         # Is a valid QR code
         if location is not None:
@@ -218,16 +253,17 @@ class MapView(View):
     template_name = 'player/map.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data(player):
         ctx = {
-            'titulo': settings.NAME,
             'player_id': player.player_id,
             'player': player,
-            'show_ctx': settings.DEBUG}
+        }
         return ctx
 
+    @staticmethod
     @is_player
-    def get(self, request):
+    def get(request):
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         return render(
@@ -245,9 +281,9 @@ class CongratulationsView(View):
     template_name = 'player/congratulations.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data():
-        ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
-        return ctx
+        return {}
 
     @is_player
     def get(self, request):
@@ -266,18 +302,19 @@ class LocationView(View):
     template_name = 'player/location.html'
 
     @staticmethod
+    @basic_context_data
     def get_context_data(location, content):
-        ctx = {'titulo': settings.NAME,
-               "show_ctx": settings.DEBUG,
-               "location": location,
-               "location_name": location.name.title(),
-               "content": content,
-               "content_title": content.title.title(),
-              }
+        ctx = {
+            "location": location,
+            "location_name": location.name.title(),
+            "content": content,
+            "content_title": content.title.title(),
+        }
         return ctx
 
+    @staticmethod
     @is_player
-    def get(self, request, location_name):
+    def get(request, location_name):
         location = Location.get_from_name(location_name)
 
         # valid location name
@@ -299,7 +336,3 @@ class LocationView(View):
         # TODO mostrar mensaje de error
         respond = add_get_variables(respond, error="loc")
         return respond
-
-
-
-

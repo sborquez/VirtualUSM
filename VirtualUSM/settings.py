@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='canb5h+e7rkf5qq2iwsdcgbpth#4p9fo4+y^=u&7rg4o#2+-w@')
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='canb5h+e7rkf5qq2iwsdcgbpth#4p9fo4+y^=u&7rg4o#2+-w@')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
@@ -124,6 +124,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+#   Encoder generators
+if DEBUG:
+    QR_LOCATION_ENCODE = {"length": 5, "chars": "1234567890"}
+    ID_PLAYER_ENCODE = {"length": 5, "chars": "1234567890"}
+else:
+    QR_LOCATION_ENCODE = {"length": 64, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+    ID_PLAYER_ENCODE = {"length": 25, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -143,15 +150,31 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'live-static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Custom settings
-NAME = 'VirtualUSM'
-LOCATIONS = 20
 
-# Encoder generators
-if DEBUG:
-    QR_LOCATION_ENCODE = {"length": 5, "chars": "1234567890"}
-    ID_PLAYER_ENCODE = {"length": 5, "chars": "1234567890"}
-else:
-    QR_LOCATION_ENCODE = {"length": 64, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
-    ID_PLAYER_ENCODE = {"length": 25, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+# Client settings.
+class Client:
+    """
+        Client object is used to customize the application to the client's requirements.
+
+        Client.app replace the title labels in the Templates, and it is added to identify the qr codes.
+
+        Client.item replace the name of items. This name is used by other different configurations:
+    """
+
+    def __init__(self):
+        if DEBUG:
+            self.app = config('CLIENT_APP', 'VirtualUSM')
+            self.item = os.environ.get("CLIENT_ITEM", 'item')
+            self.locations = os.environ.get("CLIENT_LOCATIONS", 20, cast=int)
+
+            self.items = f'{self.item}'
+        else:
+            self.app = config('CLIENT_APP')
+            self.item = os.environ.get("CLIENT_ITEM")
+            self.locations = os.environ.get("CLIENT_LOCATIONS", cast= int)
+
+            self.items = f'{self.item}'
+
+
+CLIENT = Client()
 

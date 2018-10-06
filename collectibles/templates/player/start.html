@@ -3,26 +3,40 @@
 {% load static %}
 
 {% block title %}Comienza tu aventura{% endblock %}
+{% block style %}
+    <style>
+        .login-wrap{
+            position: absolute;
+            width: 60%;
+            background-color: #fff;
+            margin-left:10%;
+            margin-right: 10%;
+            margin-top: 15%;
+            border-radius: 5px;
+            padding:20px;
+        }
+
+    </style>
+{% endblock %}
 
 <!--context table-->
 {% block context_table_content %}
-<tr>
-    <td>titulo</td><td>{{ titulo }}</td>
-</tr>
 {% endblock %}
 
 <!--content-->
 {% block content %}
-    <div id="playerFrom">
+    <div class="login-wrap center" id="playerFrom">
         {% url 'start' as start %}
 
-        <form action="{{ start }}" method="post">
+        <h2>Login</h2>
+        <form class="form" action="{{ start }}" method="post">
             {% csrf_token %}
             {{ form }}
             <input type="submit" value="Comenzar">
         </form>
     </div>
 {% endblock %}
+
 
 <!--js scripts-->
 {% block scripts %}

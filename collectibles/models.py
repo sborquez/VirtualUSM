@@ -111,6 +111,7 @@ class Item(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.TextField(max_length=124, null=True)
 
+    # TODO cambiar a tipo url
     icon_path = models.CharField(max_length=50, default="img/di.png")
 
     # TODO: Podemos usar coordenas si es que hay tiempo, por ahora solo una descripcion
