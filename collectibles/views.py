@@ -9,7 +9,7 @@ from .models import Player, Location, Item
 # Auxiliary decorators
 def basic_context_data(prepare_context_data):
     """
-        Add basic data to all Views.get_context_data()
+        Add basic data to all Views.prepare_context_data()
     """
     basic_ctx = {
         'str_app': settings.CLIENT.app,
@@ -20,8 +20,8 @@ def basic_context_data(prepare_context_data):
         'bool_show_ctx': settings.DEBUG,
     }
 
-    def _new_view_method(**kwargs):
-        ctx = prepare_context_data(**kwargs)
+    def _new_view_method(*args, **kwargs):
+        ctx = prepare_context_data(*args, **kwargs)
         return {**ctx, **basic_ctx}
     return _new_view_method
 
@@ -34,12 +34,12 @@ def is_player(view_request_handler):
         redirected to AboutView.
     """
 
-    def _new_view_method(request, **kwargs):
+    def _new_view_method(request, *args, **kwargs):
         player_id = request.session.get("player_id", None)
         # Player exist and is playing
         if player_id is not None:
             if Player.objects.filter(player_id=player_id, active=True).exists():
-                return view_request_handler(request, **kwargs)
+                return view_request_handler(request, *args, **kwargs)
             else:
                 del request.session["player_id"]
                 respond = redirect('about')
@@ -77,7 +77,7 @@ class AboutView(View):
     template_name = 'about.html'
 
     @staticmethod
-    @add_get_variables
+    @basic_context_data
     def prepare_context_data(player_id):
         ctx = {
             "player_id": player_id,
@@ -90,7 +90,7 @@ class AboutView(View):
         return render(
             request,
             AboutView.template_name,
-            context=AboutView.get_context_data(player_id)
+            context=AboutView.prepare_context_data(player_id)
         )
 
 
@@ -106,7 +106,7 @@ class StartView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data():
+    def prepare_context_data():
         ctx = {
             'form': PlayerFrom(),
         }
@@ -121,7 +121,7 @@ class StartView(View):
             return render(
                 request,
                 StartView.template_name,
-                context=StartView.get_context_data()
+                context=StartView.prepare_context_data()
             )
         else:
             return redirect('player')
@@ -153,7 +153,7 @@ class PlayerView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data(player):
+    def prepare_context_data(player):
         ctx = {
             'player_id': player.player_id,
             'player': player,          #'items': items,
@@ -172,7 +172,7 @@ class PlayerView(View):
         return render(
             request,
             PlayerView.template_name,
-            context=PlayerView.get_context_data(player)
+            context=PlayerView.prepare_context_data(player)
         )
 
     @staticmethod
@@ -201,7 +201,7 @@ class ScanView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data(player):
+    def prepare_context_data(player):
         ctx = {
             'player_id': player.player_id,
             'player': player,
@@ -216,7 +216,7 @@ class ScanView(View):
         return render(
             request,
             ScanView.template_name,
-            context=ScanView.get_context_data(player)
+            context=ScanView.prepare_context_data(player)
         )
 
     @staticmethod
@@ -254,7 +254,7 @@ class MapView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data(player):
+    def prepare_context_data(player):
         ctx = {
             'player_id': player.player_id,
             'player': player,
@@ -269,7 +269,7 @@ class MapView(View):
         return render(
             request,
             MapView.template_name,
-            context=MapView.get_context_data(player)
+            context=MapView.prepare_context_data(player)
         )
 
 
@@ -282,7 +282,7 @@ class CongratulationsView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data():
+    def prepare_context_data():
         return {}
 
     @is_player
@@ -291,7 +291,7 @@ class CongratulationsView(View):
         return render(
             request,
             CongratulationsView.template_name,
-            context=self.get_context_data
+            context=self.prepare_context_data
         )
 
 
@@ -303,7 +303,7 @@ class LocationView(View):
 
     @staticmethod
     @basic_context_data
-    def get_context_data(location, content):
+    def prepare_context_data(location, content):
         ctx = {
             "location": location,
             "location_name": location.name.title(),
@@ -329,7 +329,7 @@ class LocationView(View):
                 return render(
                     request,
                     LocationView.template_name,
-                    context=LocationView.get_context_data(location, content)
+                    context=LocationView.prepare_context_data(location, content)
                 )
         # invalid location name or player didn't scan qr code yet
         respond = redirect("player")

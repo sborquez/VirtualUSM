@@ -135,8 +135,8 @@ else:
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', 'www.labcomp.cl/~sborquez')
-USE_STATIC_HOST = os.environ.get('DJANGO_USE_HOST', default=False, cast=bool)
+STATIC_HOST = config('DJANGO_STATIC_HOST', 'www.labcomp.cl/~sborquez')
+USE_STATIC_HOST = config('DJANGO_USE_HOST', default=False, cast=bool)
 if USE_STATIC_HOST:
     STATIC_URL = STATIC_HOST + '/static/'
 else:
@@ -164,16 +164,16 @@ class Client:
     def __init__(self):
         if DEBUG:
             self.app = config('CLIENT_APP', 'VirtualUSM')
-            self.item = os.environ.get("CLIENT_ITEM", 'item')
-            self.locations = os.environ.get("CLIENT_LOCATIONS", 20, cast=int)
+            self.item = config("CLIENT_ITEM", 'item')
+            self.locations = config("CLIENT_LOCATIONS", 20, cast=int)
 
-            self.items = f'{self.item}'
+            self.items = f'{self.item}s'
         else:
             self.app = config('CLIENT_APP')
-            self.item = os.environ.get("CLIENT_ITEM")
-            self.locations = os.environ.get("CLIENT_LOCATIONS", cast= int)
+            self.item = config("CLIENT_ITEM")
+            self.locations = config("CLIENT_LOCATIONS", cast=int)
 
-            self.items = f'{self.item}'
+            self.items = f'{self.item}s'
 
 
 CLIENT = Client()

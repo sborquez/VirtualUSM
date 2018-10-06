@@ -32,7 +32,7 @@ class Location(models.Model):
     @staticmethod
     def get_from_QR(qr_content):
         qr_split_content = qr_content.split("::")
-        if len(qr_split_content) == 2 and qr_split_content[0] == settings.NAME:
+        if len(qr_split_content) == 2 and qr_split_content[0] == settings.CLIENT.app:
             try:
                 location = Location.objects.get(QR_key=qr_split_content[1])
             except ObjectDoesNotExist:
@@ -69,7 +69,7 @@ class Location(models.Model):
     def get_QR(self):
         """generate a QR image"""
         # TODO
-        qr_content = f"{settings.NAME}::{self.QR_key}"
+        qr_content = f"{settings.Client.app}::{self.QR_key}"
         pass
 
     def __str__(self):

@@ -12,7 +12,10 @@ print_template = 'admin/print.html'
 
 
 def get_context_data():
-    ctx = {'titulo': settings.NAME, "show_ctx": settings.DEBUG}
+    ctx = {
+        'titulo': settings.CLIENT.app,
+        "show_ctx": settings.DEBUG
+    }
     return ctx
 
 

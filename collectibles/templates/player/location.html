@@ -77,11 +77,13 @@
                     </div>
                     <ul class="content-table-list">
                         <li>{{ content.description }}</li>
-                    </ul>
+                    <li>
                     <a href="{{ content.content }}" class="button-choose pure-button pure-button-active" target="_blank">
                                 <i class="fa fa-external-link-alt fa-lg"></i>
                                   Abrir
                             </a>
+                    </li>
+                    </ul>
                 </div>
 
                 {% elif content.content_type == "YT"%}
@@ -131,12 +133,11 @@
                     <p>{{ content.content }}</p>
                 </div>
                 {% endif %}
-            <h4>{{ str_app }}</h4>
+                <h4>{{ str_app }}</h4>
 
-            <!-- TODO: Insertar icono de promo -->
-                <img width="300" alt="File Icons" class="pure-img-responsive" src="{% static 'img/di.png' %}">
+                <!-- TODO: Insertar icono de promo -->
+                <img alt="File Icons" class="pure-img-responsive logo" src="{% static 'img/di.png' %}">
                 <h5>Icono Promocion</h5>
-
             </div>
         <div class="pure-menu-fixed pure-button" id="back-container">
             <span class="fa-stack fa-2x">
