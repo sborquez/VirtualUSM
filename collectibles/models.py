@@ -66,11 +66,9 @@ class Location(models.Model):
         else:
             return items[0]
 
-    def get_QR(self):
-        """generate a QR image"""
-        # TODO
-        qr_content = f"{settings.Client.app}::{self.QR_key}"
-        pass
+    def get_visits(self):
+        """return the visits to location"""
+        return self.acquireditem_set.all()
 
     def __str__(self):
         return f"{self.name.title()}"
@@ -131,6 +129,7 @@ class Player(models.Model):
     nick = models.CharField(max_length=15)
     nick_suffix = models.CharField(max_length=5)
     active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def create(cls, nick, check=False):
@@ -152,7 +151,7 @@ class Player(models.Model):
     def add_item(self, item):
         """add the item to the collection"""
         if not self.acquireditem_set.filter(item=item).exists():
-            new_item_acquired = AcquiredItem(player=self, item=item)
+            new_item_acquired = AcquiredItem(player=self, item=item, location=item.location)
             new_item_acquired.save()
             return True
         return False
@@ -178,12 +177,18 @@ class Player(models.Model):
 
 class AcquiredItem(models.Model):
     """
-    Adquired item by a player
+    Acquired item by a player
     """
-    acquired_date = models.DateField(auto_now_add=True)
+    acquired = models.DateField(auto_now_add=True)
 
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+    # TODO agregar esto
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        ordering = ('acquired',)
 
     def __str__(self):
         return f"{str(self.player)}::{str(self.item)}"

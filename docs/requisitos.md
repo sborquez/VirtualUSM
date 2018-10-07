@@ -4,30 +4,38 @@ A continuación se definirá la aplicación y sus requisitos.
 
 ## Abstracto
 
-La aplicación es parte de un juego, este consiste que los __jugadores__ en buscar en las dependecias
-de la universidad distintos __coleccionables__ en forma de __códigos QR__. Estos colecionables
-incluyen información relevante de la universidad, de la carrera Ing Civil Informática y un
-incentivo que impulse a su búsqueda y colección.
+La aplicación es parte de un juego que combina el mundo real con el 
+virtual. El juego consiste de este consiste en buscar los diferentes
+ __coleccionables__  y repartidos las dependencias de la institución.
+
+Los __jugadores__ usarán sus smartphones para la búsqueda. Usando la
+cámara se accede a la __descripción__ y __contenido__ de la localidad.
+
+El __contenido__ es personalizable, puede ser un __video__, __imagén__,
+__texto__ o __link__. 
+
+También podrán agregar el __coleccionable__, uno diferente por localidad.
+Un __colecionable__ es el insentivo para la búsqueda, __sticker__, 
+__monedas__, __globos__, etc.
  
- Estos coleccionables son administrados por
-un __administrador__ el cual se encarga tanto de agregar, modificar y eliminar los colecionable,
-además de tener una forma sencilla de llevarlos al mundo real. También debe ser capaz de 
-ver los resultados actuales del juego, quien va ganando, cuantos jugadores, etc.
+La aplicación debe ser sencilla en su uso, el proceso de comenzar a jugar
+debe ser corto. Informar al jugador el proceso y el estado general del juego.
+ 
+Es importante llevar un control del estado del juego. Se tiene un sitio de
+__administrador__, desde aquí se pude editar la base de datos, mostrar la 
+cantidad de usuario y un resumenes en forma de gráficos.
 
-Los jugadores usarán sus smartphones para la búsqueda, podrán agregar los colecionables usando
-la cámara, deben tener un mapa para ubicarse en la universidad y 
-poder ver y compartir su progreso. La aplicación debe ser sencilla 
-en su uso y de rápido inicio a la acción.
-
-En cuanto a los coleccionables, pueden ser globos, tazos, monedas, etc. 
-Pero deben estar acompañados de información como el lugar donde está, imágenes,
-links útiles (como la malla interactiva) o easter eggs.
+También podrá generar los códigos qr para los letreros.
 
 ## Modelo de dominio
 
-El módelo consiste de 4 clases: el administrador, el jugador y el item, este
- está conformado por el coleccionable y la información, img, etc.
+El módelo consiste de 5 clases: el administrador, el jugador, la localidades 
+y el coleccionable.
 
+
+* El administrador administra a jugadores y localidades.
+* El jugador coleciona coleccionable visitando a las localidades
+* Cada localidad posee su propio coleccionable único.
 
 ## Historias de usuarios
 
@@ -49,7 +57,12 @@ El módelo consiste de 4 clases: el administrador, el jugador y el item, este
 2. Mostrar y compartir el progreso del jugador
 3. Tener un mapa de las dependecias de la universidad
 4. Tener una tabla de posiciones del juego
-5. Tener un dashboard de administración
+5. Tener un dashboard de administración, el dashboard debe responder:
+    0. Cantidad de jugadores, activos y no activos
+    1. Tabla de posiciones
+    2. Lugares más visitados
+    3. Visitas por lugar
+    4. Visitas por jugador
 6. Generar e imprimir los códigos QR para los coleccionables
 7. Tener un tutorial de como jugar
 
@@ -60,3 +73,8 @@ El módelo consiste de 4 clases: el administrador, el jugador y el item, este
 2. Debe estar enfocado en ser usado en dispositivos móviles.
 3. Debe ser llamativo, que le de un motivo al jugar para ir en busqueda de los coleccionables.
 4. Debe ser útil para los jugadores
+
+
+## Requisitos no obligatorios
+
+0. Los usuario pueden dejar comentarios en las localidades, solo una vez o quizás más.

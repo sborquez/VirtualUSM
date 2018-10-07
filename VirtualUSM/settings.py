@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    # Django Rest Framework
+    'rest_framework',
+
     # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,8 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
     # Custom Apps
-    'collectibles.apps.CollectiblesConfig'
+    'collectibles.apps.CollectiblesConfig',
 ]
 
 MIDDLEWARE = [
@@ -157,13 +162,13 @@ class Client:
         Client object is used to customize the application to the client's requirements.
 
         Client.app replace the title labels in the Templates, and it is added to identify the qr codes.
-
+        Client.locations is the number of locations to use in the 'game'
         Client.item replace the name of items. This name is used by other different configurations:
     """
 
     def __init__(self):
         if DEBUG:
-            self.app = config('CLIENT_APP', 'VirtualUSM')
+            self.app = config('CLIENT_APP', 'VirtualUSM') # Name of app
             self.item = config("CLIENT_ITEM", 'item')
             self.locations = config("CLIENT_LOCATIONS", 20, cast=int)
 
