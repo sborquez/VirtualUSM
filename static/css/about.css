@@ -159,7 +159,6 @@ a.pure-button-primary {
     text-align: right;
     background-size: auto;
     background: transparent url("../img/ruta_informatica.jpg") no-repeat center;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/ruta_informatica.jpg', sizingMethod='scale');
 
     height: 85vh;
     width: 100%;
@@ -180,7 +179,6 @@ a.pure-button-primary {
 .splash {
     /* absolute center .splash within .splash-container */
     width: 80vw;
-    height: auto;
     margin: auto;
     padding-top: 5%;
     position: absolute;
@@ -192,8 +190,8 @@ a.pure-button-primary {
 }
 
 .splash-logo {
-    max-height: 300px;
-    max-width: 300px;
+    max-width: 250px;
+    max-height: 250px;
     width: 80%;
 }
 

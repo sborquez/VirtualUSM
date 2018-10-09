@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from random import choices
+from django.db.models import F
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -163,12 +164,18 @@ class Player(models.Model):
 
     def get_items(self):
         """return how many items it has and the items"""
-        # TODO
-        pass
+
+        acquired_items = self.acquireditem_set.all()
+        acquired = acquired_items.count()
+
+        items = []
+        for a in acquired_items:
+            items.append(a.item)
+        return acquired, items
 
     def get_QR(self):
         """"generate a QR image"""
-        # TODO
+        # TODO generar codigos qr para jugadores
         pass
 
     def __str__(self):
@@ -194,3 +201,25 @@ class AcquiredItem(models.Model):
         return f"{str(self.player)}::{str(self.item)}"
 
 
+class Commentary(models.Model):
+    """
+    Commentary from a player
+    """
+
+    commented = models.DateField(auto_now_add=True)
+
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
+    _comment = models.TextField(max_length=250)
+    _reactions = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('commented',)
+
+    def add_reaction(self):
+        self._reactions = F('reactions') + 1
+        self.save()
+
+    def __str__(self):
+        return self._comment

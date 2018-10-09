@@ -3,12 +3,29 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Player, Location, Item, AcquiredItem
-
-
 # from rest_framework import authentication, permissions
+
+
+# TODO Hacer vista para commentary
+class CommentaryService(APIView):
+    """
+    List comments of a location
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    @staticmethod
+    def get(request):
+        pass
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        pass
+
+
 class PlayersList(APIView):
     """
-    View to list all players in the system.
+    List all players on the system.
 
     """
     authentication_classes = []
@@ -70,7 +87,7 @@ class PlayersList(APIView):
                 )
             players_list = sorted(players_list, key=lambda p: p["items"], reverse=True)
 
-        # Restring length
+        # Restrict long
         if q > 0:
             players_list = players_list[:q]
 
@@ -132,7 +149,7 @@ class LocationsVisits(APIView):
         if order == "players":
             locations_list = sorted(locations_list, key=lambda l: l["players"])
 
-        # Restring length
+        # Restrict long
         if q > 0:
             locations_list = locations_list[:q]
 
@@ -173,7 +190,7 @@ class PlayersVisits(APIView):
         except ValueError:
             q = 0
 
-        # Restring length
+        # Restrict long
         if q > 0:
             #locations_list = locations_list[:q]
             pass

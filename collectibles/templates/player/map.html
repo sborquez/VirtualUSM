@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
 
 {% load static %}
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/player.css' %}">
+{% endblock %}
 
 {% block title %}Mapa{% endblock %}
 
 <!--context table-->
+
 {% block context_table_content %}
 <tr>
     <td>player</td><td>{{ player }}</td>
@@ -19,6 +24,11 @@
 
 <!--content-->
 {% block content %}
+    <div id="map" class="map-container">
+        <img class="map" src="{% static 'img/CasaCentral.png' %}">
+    </div>
+
+    <div id="navBar-container" class="menu-wrapper">
     <nav id="navBar" class="menu">
        <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
        <label class="menu-open-button" for="menu-open">
@@ -26,11 +36,11 @@
         <span class="lines line-2"></span>
         <span class="lines line-3"></span>
       </label>
-
        <a href="{% url 'scan' %}" class="menu-item orange"> <i class="fa fa-camera"></i> </a>
        <a href="{% url 'player' %}" class="menu-item green"> <i class="fa fa-id-card"></i> </a>
        <a href="{% url 'map' %}" class="menu-item lightblue"> <i class="fa fa-map-marked"></i> </a>
     </nav>
+    </div>
 {% endblock %}
 
 <!--js scripts-->

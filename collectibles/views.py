@@ -153,26 +153,26 @@ class PlayerView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(player):
+    def prepare_context_data(player, items):
         ctx = {
             'player_id': player.player_id,
-            'player': player,          #'items': items,
+            'player': player,
+            'items': items,
+            'total_items': settings.CLIENT.locations,
+            'acquired_items': len(items)
         }
         return ctx
 
     @staticmethod
     @is_player
     def get(request):
-
-        # TODO listar items
-        # TODO Mostrar avance o posicion en la tabla
-
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
+        _, items = player.get_items()
         return render(
             request,
             PlayerView.template_name,
-            context=PlayerView.prepare_context_data(player)
+            context=PlayerView.prepare_context_data(player, items)
         )
 
     @staticmethod

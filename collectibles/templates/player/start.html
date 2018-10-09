@@ -5,17 +5,48 @@
 {% block title %}Comienza tu aventura{% endblock %}
 {% block style %}
     <style>
-        .login-wrap{
+        .content{
             position: absolute;
-            width: 60%;
-            background-color: #fff;
-            margin-left:10%;
-            margin-right: 10%;
-            margin-top: 15%;
-            border-radius: 5px;
-            padding:20px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 15vh;
+        }
+        .login-container {
+            background-color: rgb(227, 227, 227);
+            border-radius: 20px;
+            padding: 20px;
+            width: 80%;
+            margin: auto;
+            padding-top: 8vh;
+            text-align: center;
+        }
+        .rule-container {
+            margin: 10%;
+            text-align: justify;
+
         }
 
+        .blue {
+            width: 80%;
+            color: #ffffff;
+            font-size: large;
+            background-color: #1f8dd6;
+            border-radius: 10px;
+        }
+        .icon-container {
+            position: absolute;
+            margin: auto;
+            top: 6vh;
+            right: 0px;
+            width: 100%;
+        }
+        .icon {
+            padding: 5%;
+            background-color:  rgb(227, 227, 227);
+            border-radius: 50%;
+        }
     </style>
 {% endblock %}
 
@@ -25,16 +56,37 @@
 
 <!--content-->
 {% block content %}
-    <div class="login-wrap center" id="playerFrom">
-        {% url 'start' as start %}
+    <div class="content">
 
-        <h2>Login</h2>
-        <form class="form" action="{{ start }}" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Comenzar">
-        </form>
+        <div class="ribbon l-box-lrg login-container center" id="playerFrom">
+            <div class="icon-container">
+                <i class="icon far fa-user fa-5x"></i>
+            </div>
+            <h2>Registro</h2>
+
+            <div class="rule-container">
+                <h3>Reglas</h3>
+                <ul style="color: #444444">
+                    <li>El largo mínimo es de 5 caracteres</li>
+                    <li>El largo máximo es de 15 caracteres</li>
+                    <li>No usar nombres ofensivos</li>
+                    <li>No hagas trampa</li>
+                    <li>Visitar la <b>ruta informática</b></li>
+                </ul>
+            </div>
+
+
+            {% url 'start' as start %}
+            <form class="form" action="{{ start }}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <br>
+                <input class="button-xlarge pure-button blue" style="margin-top: 10px" type="submit" value="Comenzar">
+            </form>
+        </div>
+
     </div>
+
 {% endblock %}
 
 

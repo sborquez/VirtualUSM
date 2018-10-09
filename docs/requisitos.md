@@ -29,13 +29,14 @@ También podrá generar los códigos qr para los letreros.
 
 ## Modelo de dominio
 
-El módelo consiste de 5 clases: el administrador, el jugador, la localidades 
-y el coleccionable.
+El módelo consiste de 6 clases: el administrador, el jugador, la localidades, comentarios
+ y el coleccionable.
 
 
 * El administrador administra a jugadores y localidades.
-* El jugador coleciona coleccionable visitando a las localidades
+* El jugador coleciona coleccionable visitando a las localidades.
 * Cada localidad posee su propio coleccionable único.
+* Cada jugador puede dejar un comentario en cada localidad visitada.
 
 ## Historias de usuarios
 
@@ -66,6 +67,8 @@ y el coleccionable.
 6. Generar e imprimir los códigos QR para los coleccionables
 7. Tener un tutorial de como jugar
 
+8. Los usuario pueden dejar un comentario en cada localidad visitada.
+
 ## Requisitos no funcionales
 
 0. Debe ser fácil de entrar al juego, no necesitar instalar, ser una webapp
@@ -73,8 +76,3 @@ y el coleccionable.
 2. Debe estar enfocado en ser usado en dispositivos móviles.
 3. Debe ser llamativo, que le de un motivo al jugar para ir en busqueda de los coleccionables.
 4. Debe ser útil para los jugadores
-
-
-## Requisitos no obligatorios
-
-0. Los usuario pueden dejar comentarios en las localidades, solo una vez o quizás más.
