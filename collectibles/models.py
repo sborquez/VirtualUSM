@@ -200,11 +200,9 @@ class AcquiredItem(models.Model):
     def __str__(self):
         return f"{str(self.player)}::{str(self.item)}"
 
-
+"""
 class Commentary(models.Model):
-    """
-    Commentary from a player
-    """
+    #Commentary from a player
 
     commented = models.DateField(auto_now_add=True)
 
@@ -223,3 +221,4 @@ class Commentary(models.Model):
 
     def __str__(self):
         return self._comment
+    """
