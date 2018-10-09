@@ -1,3 +1,5 @@
+gunicorn
+django-heroku
 djangorestframework
 certifi==2018.8.24
 Django==2.1.1

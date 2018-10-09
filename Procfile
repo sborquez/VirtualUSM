@@ -1,0 +1,1 @@
+web: gunicorn VirtualUSM.wsgi --log-file -
