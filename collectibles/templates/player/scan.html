@@ -4,6 +4,18 @@
 {% block style %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/player.css' %}">
+    <style>
+        .video-container {
+            position: fixed;
+            width: 100%;
+            height: auto;
+        }
+
+        #qr-video {
+            width: 100%;
+        }
+    </style>
+
 {% endblock %}
 
 {% block title %}Scan{% endblock %}
@@ -23,18 +35,22 @@
 
 <!--content-->
 {% block content %}
-    <div id="scanner">
+
+    <div class="video-container">
+        <video id="qr-video"></video>
+    </div>
+
+    <div id="form-container" class="hidden">
         {% url 'scan' as scan %}
 
-        <form action="{{ scan }}" method="post">
+        <form id="form" action="{{ scan }}" method="post">
             {% csrf_token %}
             Contenido del código QR:<br>
-              <input type="text" name="qr_content" placeholder="{{ str_app }}::abcd1234">
+              <input id="qr-value" type="text" name="qr_content" placeholder="{{ str_app }}::abcd1234">
               <br>
               <input type="submit" value="Scan">
         </form>
     </div>
-
 
     <div id="navBar-container" class="menu-wrapper">
     <nav id="navBar" class="menu">
@@ -53,4 +69,21 @@
 
 <!--js scripts-->
 {% block scripts %}
+<script src="{% static 'js/instascan.min.js' %}"></script>
+ <script type="text/javascript">
+      let scanner = new Instascan.Scanner({ video: document.getElementById('qr-video') });
+      scanner.addListener('scan', function (content) {
+        document.getElementById("qr-value").value = content;
+        document.getElementById("form").submit();
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    </script>
 {% endblock %}
