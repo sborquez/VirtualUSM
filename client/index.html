@@ -1,0 +1,104 @@
+
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Janusz Białobrzewski" />
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>Virtual USM</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <script type="text/javascript" src="/jsPretty/jsqrscanner.nocache.js"></script>
+  </head>
+
+  <body>
+
+      <style>
+          video {
+            object-fit: cover;
+          }
+          @media (min-width: 1000px) {
+            video {
+              height: 480px;
+            }
+          }
+        </style>
+      
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+
+    
+      <nav>
+          <div class="nav-wrapper cyan">
+            <a href="#" class="brand-logo center">Virtual USM</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+            </ul>
+          </div>
+        </nav>
+      <div class="container">
+          <div class="row">
+
+              <div class="col s12" id="scanner">
+
+              </div>
+
+        <div class="col s12">
+            <textarea id="scannedTextMemo" class="textInput form-memo form-field-input textInput-readonly" rows="3" readonly>
+            </textarea>
+        </div>
+      </div>
+
+    </div>
+
+    
+  <script type="text/javascript">
+    function onQRCodeScanned(scannedText)
+    {
+    	var scannedTextMemo = document.getElementById("scannedTextMemo");
+    	if(scannedTextMemo)
+    	{
+    		scannedTextMemo.value = scannedText;
+    	}
+    }
+  
+    //this function will be called when JsQRScanner is ready to use
+    function JsQRScannerReady()
+    {
+        //create a new scanner passing to it a callback function that will be invoked when
+        //the scanner succesfully scan a QR code
+        var jbScanner = new JsQRScanner(onQRCodeScanned);
+        //reduce the size of analyzed image to increase performance on mobile devices
+        jbScanner.setSnapImageMaxSize(300);
+    	var scannerParentElement = document.getElementById("scanner");
+    	if(scannerParentElement)
+    	{
+    	    //append the jbScanner to an existing DOM element
+    		jbScanner.appendTo(scannerParentElement);
+    	}        
+    }
+  </script>    
+  </body>
+</html>
