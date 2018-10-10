@@ -21,13 +21,25 @@
             margin: auto;
             padding-top: 8vh;
             text-align: center;
+
         }
         .rule-container {
+            box-shadow: 5px 5px grey;
             margin: 10%;
             text-align: justify;
+            color: #000000;
+            background-color: rgba(203, 43, 42, 0.43);
+            padding-top: 5%;
+            padding-right: 15%;
+            padding-bottom: 5%;
 
         }
 
+        .rule-container h3 {
+
+            color: rgba(0, 0, 0, 0.73);
+            margin-left:  15%;
+        }
         .blue {
             width: 80%;
             color: #ffffff;
@@ -43,6 +55,7 @@
             width: 100%;
         }
         .icon {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             padding: 5%;
             background-color:  rgb(227, 227, 227);
             border-radius: 50%;
@@ -50,9 +63,6 @@
     </style>
 {% endblock %}
 
-<!--context table-->
-{% block context_table_content %}
-{% endblock %}
 
 <!--content-->
 {% block content %}
@@ -65,7 +75,7 @@
             <h2>Registro</h2>
 
             <div class="rule-container">
-                <h3>Reglas</h3>
+                <h3><i class="fas fa-exclamation-triangle"></i> Reglas</h3>
                 <ul style="color: #444444">
                     <li>El largo mínimo es de 5 caracteres</li>
                     <li>El largo máximo es de 15 caracteres</li>

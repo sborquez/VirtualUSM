@@ -16,8 +16,6 @@ def basic_context_data(prepare_context_data):
         'str_item': settings.CLIENT.item,
         'str_items': settings.CLIENT.items,
         'int_total_locations': settings.CLIENT.locations,
-
-        'bool_show_ctx': settings.DEBUG,
     }
 
     def _new_view_method(*args, **kwargs):

@@ -179,12 +179,13 @@ a.pure-button-primary {
 .splash {
     /* absolute center .splash within .splash-container */
     width: 80vw;
+    color: #FFFFFF !important;
     margin: auto;
     padding-top: 5%;
     position: absolute;
     top: 10vh; left: 0; bottom: 0; right: 0;
     text-align: center;
-    background-color: rgba(31, 141, 214, 0.38);
+    background-color: #f18e00;
     text-transform: uppercase;
     border-radius: 15%;
 }

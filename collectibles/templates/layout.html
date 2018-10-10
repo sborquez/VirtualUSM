@@ -27,24 +27,6 @@
     <!--content-->
     {% block content %}
     {% endblock %}
-
-    <!-- debug table, show context variables-->
-    {% if bool_show_ctx %}
-    <div>
-        <h4>Table of context variables (ONLY DEBUG)</h4>
-        <table style="width:100%; border: 1px solid black;">
-          <tr>
-            <th>Variable</th>
-            <th>Value</th>
-          </tr>
-          <tr>
-            <td>app</td><td>{{ str_app }}</td>
-          </tr>
-        {% block context_table_content %}
-        {% endblock %}
-        </table>
-    </div>
-    {% endif %}
   </body>
   <footer>
     <!--js scripts-->

@@ -30,6 +30,14 @@ class Location(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField(max_length=124)
 
+    # TODO: Podemos usar coordenas si es que hay tiempo, por ahora es referente a la imagen del mapa
+    # coordinates (now are from the map image)
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
+
+    # image
+    img_path = models.CharField(max_length=150, default="img/locations/default.jpg")
+
     @staticmethod
     def get_from_QR(qr_content):
         qr_split_content = qr_content.split("::")
@@ -85,7 +93,8 @@ class Content(models.Model):
         ("URL", "Url content"),
         ("YT", "Youtube video"),
         ("IMG", "Image"),
-        ("INFO", "Information")
+        ("INFO", "Information"),
+        ("API", "Rest API Call")
     )
     # The name of the content
     title = models.CharField(max_length=120, null=False)
@@ -110,10 +119,8 @@ class Item(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.TextField(max_length=124, null=True)
 
-    # TODO cambiar a tipo url
-    icon_path = models.CharField(max_length=150, default="img/di.png")
+    icon_path = models.CharField(max_length=150, default="img/stickers/default.png")
 
-    # TODO: Podemos usar coordenas si es que hay tiempo, por ahora solo una descripcion
     location = models.ForeignKey(Location, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -138,9 +145,11 @@ class Player(models.Model):
         nick_suffix = "".join(choices("1234567890", k=5))
         player_id = "".join(choices(settings.ID_PLAYER_ENCODE["chars"], k=settings.ID_PLAYER_ENCODE["length"]))
 
+        """
         while (check):
             # TODO revisar si ya existe el id en la BD
             check = False
+        """
 
         new_player = cls(player_id=player_id, nick=nick, nick_suffix=nick_suffix)
         return new_player
@@ -169,14 +178,19 @@ class Player(models.Model):
         acquired = acquired_items.count()
 
         items = []
-        for a in acquired_items:
-            items.append(a.item)
+        for ac in acquired_items:
+            items.append(ac.item)
         return acquired, items
 
-    def get_QR(self):
-        """"generate a QR image"""
-        # TODO generar codigos qr para jugadores
-        pass
+    def get_locations(self):
+        """return how many locations has visited and the locations"""
+        acquired_items = self.acquireditem_set.all()
+        acquired = acquired_items.count()
+
+        locations = []
+        for ac in acquired_items:
+            locations.append(ac.item)
+        return acquired, locations
 
     def __str__(self):
         return f"{self.nick}::{self.nick_suffix}"
@@ -200,6 +214,7 @@ class AcquiredItem(models.Model):
     def __str__(self):
         return f"{str(self.player)}::{str(self.item)}"
 
+
 """
 class Commentary(models.Model):
     #Commentary from a player
@@ -221,4 +236,4 @@ class Commentary(models.Model):
 
     def __str__(self):
         return self._comment
-    """
+"""

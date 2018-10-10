@@ -11,30 +11,6 @@
 
 {% block title %}{{ player }}{% endblock %}
 
-<!--context table-->
-{% block context_table_content %}
-<tr>
-    <td>player</td><td>{{ player }}</td>
-</tr>
-<tr>
-    <td>player_id</td><td>{{ player_id }}</td>
-</tr>
-
-<tr>
-    <td>active</td><td>{{ player.active }}</td>
-</tr>
-<tr>
-    <td>items</td><td>{{ items }}</td>
-</tr>
-<tr>
-    <td>total</td><td>{{ total_items }}</td>
-</tr>
-    <tr>
-    <td>acquired</td><td>{{ acquired_items }}</td>
-</tr>
-
-{% endblock %}
-
 <!--content-->
 {% block content %}
     <!--    <div>

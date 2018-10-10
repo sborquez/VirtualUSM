@@ -26,6 +26,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='canb5h+e7rkf5qq2iwsdcgbpth#4p9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
+SQLITE = config('DJANGO_USE_SQLITE', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'VirtualUSM.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-if DEBUG:
+if DEBUG or SQLITE:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -131,12 +132,8 @@ USE_L10N = True
 USE_TZ = True
 
 #   Encoder generators
-if DEBUG:
-    QR_LOCATION_ENCODE = {"length": 5, "chars": "1234567890"}
-    ID_PLAYER_ENCODE = {"length": 5, "chars": "1234567890"}
-else:
-    QR_LOCATION_ENCODE = {"length": 64, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
-    ID_PLAYER_ENCODE = {"length": 25, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+QR_LOCATION_ENCODE = {"length": 64, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
+ID_PLAYER_ENCODE = {"length": 25, "chars": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

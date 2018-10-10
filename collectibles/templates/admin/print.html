@@ -8,56 +8,56 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
      {{ block.super }}
-<style>
-    .card {
-        /* Add shadows to create the "card" effect */
-        width: {{ size }}cm;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-    }
+    <style>
+        .card {
+            /* Add shadows to create the "card" effect */
+            width: {{ size }}cm;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
 
-    /* On mouse-over, add a deeper shadow */
-    .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    }
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
 
-    /* Add some padding inside the card container */
-    .container {
+        /* Add some padding inside the card container */
+        .container {
 
-    }
-    .card h4 {
-      float: left;
-    }
+        }
+        .card h4 {
+          float: left;
+        }
 
-    .card p {
-        text-align: center
-    }
-    .number {
-        color: #000000;
-        float: right;
-        padding: 7px;
-        position: relative;
-        background-image: url("{% static 'img/di.png' %}");
-        background-size: cover;
-    }
+        .card p {
+            text-align: center
+        }
+        .number {
+            color: #000000;
+            float: right;
+            padding: 7px;
+            position: relative;
+            background-image: url("{% static 'img/di.png' %}");
+            background-size: cover;
+        }
 
 
-    /* Fix QR size to clients requirements */
-    .qr_container {
-        width: 100%;
-        height: auto;
-    }
+        /* Fix QR size to clients requirements */
+        .qr_container {
+            width: 100%;
+            height: auto;
+        }
 
-    .location-name {
-        margin: auto;
-        border: 1px solid rgba(123, 123, 123, 0.69);
-    }
+        .location-name {
+            margin: auto;
+            border: 1px solid rgba(123, 123, 123, 0.69);
+        }
 
-    .description-container {
+        .description-container {
 
-    }
+        }
 
-</style>
+    </style>
 
 {% endblock %}
 
@@ -80,7 +80,8 @@
                         <h5 class="number"><b>{{ forloop.counter0 }}</b></h5>
                     {% endif %}
                 </div>
-                <img class="qr_container" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ str_app }}::{{ location.QR_key }}" onclick="onClick(this)" alt="A boy surrounded by beautiful nature">
+                <!--<img class="qr_container" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ str_app }}::{{ location.QR_key }}" alt="{{ str_app }}::{{ location.QR_key }}">
+                --><img class="qr_container" src="https://qrtag.net/api/qr_350.png?url=https://www.youtube.com/watch?v=y3RJozZpT8Y" alt="{{ str_app }}::{{ location.QR_key }}">
                 <div class="description-container">
                     <p>{{ location.description }}</p>
                 </div>

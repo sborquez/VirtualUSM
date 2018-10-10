@@ -7,38 +7,13 @@
     <link rel="stylesheet" href="{% static 'css/location.css' %}">
     <style>
     .banner {
-        background: transparent url("{% static 'img/ruta_informatica.jpg' %}") no-repeat center;
+        background: transparent url("{% static location.img_path %}") no-repeat center;
     }
     </style>
 {% endblock %}
 
 
 {% block title %}{{ location_name }}{% endblock %}
-
-<!--context table-->
-{% block context_table_content %}
-<tr>
-    <td>location</td><td>{{ location }}</td>
-</tr>
-<tr>
-    <td>location name</td><td>{{ location_name }}</td>
-</tr>
-<tr>
-    <td>location description</td><td>{{ location.description }}</td>
-</tr>
-<tr>
-    <td>content name</td><td>{{ content}}</td>
-</tr>
-<tr>
-    <td>content type</td><td>{{ content.content_type }}</td>
-</tr>
-<tr>
-    <td>content title</td><td>{{ content_title }}</td>
-</tr>
-<tr>
-    <td>content description</td><td>{{ content.description }}</td>
-</tr>
-{% endblock %}
 
 <!--content-->
 {% block content %}
