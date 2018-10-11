@@ -80,8 +80,10 @@
                         <h5 class="number"><b>{{ forloop.counter0 }}</b></h5>
                     {% endif %}
                 </div>
-                <!--<img class="qr_container" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ str_app }}::{{ location.QR_key }}" alt="{{ str_app }}::{{ location.QR_key }}">
-                --><img class="qr_container" src="https://qrtag.net/api/qr_350.png?url=https://www.youtube.com/watch?v=y3RJozZpT8Y" alt="{{ str_app }}::{{ location.QR_key }}">
+                <img class="qr_container" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ str_app }}::{{ location.QR_key }}" alt="{{ str_app }}::{{ location.QR_key }}">
+                                  <!--
+<img class="qr_container" src="https://qrtag.net/api/qr_350.png?url=https://www.youtube.com/watch?v=y3RJozZpT8Y" alt="{{ str_app }}::{{ location.QR_key }}">
+                                -->
                 <div class="description-container">
                     <p>{{ location.description }}</p>
                 </div>
@@ -116,21 +118,4 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block footer %}
-
-<script>
-
-// Modal Image Gallery
-function onClick(element) {
-
-    // TODO: hacer algo cuando se le haga clic
-    /*
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-  */
-}
-
-</script>
-
 {% endblock %}

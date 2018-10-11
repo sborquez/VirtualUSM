@@ -4,12 +4,20 @@
 {% block style %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/player.css' %}">
+    <style>
+        .map-container{
+            margin-top: 35px;
+        }
+    </style>
 {% endblock %}
 
 {% block title %}Mapa{% endblock %}
 
 <!--content-->
 {% block content %}
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading heading" href="/">{{ str_app }}</a>
+    </div>
     <div id="map" class="map-container">
         <img class="map" src="{% static 'img/CasaCentral.png' %}">
     </div>

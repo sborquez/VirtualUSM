@@ -154,7 +154,7 @@ class PlayerView(View):
     def prepare_context_data(player, items):
         ctx = {
             'player_id': player.player_id,
-            'player': player,
+            'nick': player,
             'items': items,
             'total_items': settings.CLIENT.locations,
             'acquired_items': len(items)

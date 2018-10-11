@@ -1,0 +1,231 @@
+/*
+ * -- BASE STYLES --
+ * Most of these are inherited from Base, but I want to change a few.
+ */
+body {
+    background-color: rgba(215, 255, 253, 0.05);
+        color: #526066;
+    padding-top: 0px !important;
+}
+
+h2, h3 {
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+p {
+    line-height: 1.6em;
+}
+
+
+/*
+ * -- Layout Styles --
+ */
+.l-content {
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.86);
+    width: 100% !important;
+}
+
+.l-box {
+    padding: 0.5em 2em;
+}
+
+/*
+ * -- MENU STYLES --
+ * Make the menu have a very faint box-shadow.
+ */
+.pure-menu {
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+
+.pure-menu-link {
+    padding: .5em .7em;
+}
+
+
+/*
+ * -- BANNER --
+ * The top banner with the headings. By using a combination
+ * of `display: table;` and `display: table-cell;`, we can
+ * vertically center the text.
+ */
+
+.banner {
+    /*background: transparent url('http://24.media.tumblr.com/ccb268832580ac12951828a1c179de69/tumblr_mo2xbk8JUK1st5lhmo1_1280.jpg') 0 0 no-repeat fixed;*/
+    text-align: center;
+    background-size: auto;
+
+    height: 60vh;
+    width: 100%;
+    margin-top: 0px;
+    display: table;
+}
+
+.banner-head {
+    display: table-cell;
+    vertical-align: middle;
+    margin-bottom: 0;
+    font-size: 8vw;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 1px black;
+}
+
+
+
+/*
+ * -- PRICING TABLE WRAPPER --
+ * This element wraps up all the pricing table elements
+ */
+ .content-tables,
+ .information {
+    max-width: 980px;
+    margin: 0 auto;
+ }
+.content-tables {
+    margin-bottom: 3.125em;
+    text-align: center;
+}
+
+/*
+ * -- CONTENT TABLE  --
+ * Every content table has the .content-table class
+ */
+.content-table {
+    border: 1px solid #ddd;
+    margin: 0 0.5em 2em;
+    padding: 0 0 1em;
+}
+
+/*
+ * -- PRICING TABLE HEADER COLORS --
+ * Choose a different color based on the type of pricing table.
+ */
+.content-table-url .content-table-header {
+    background: #3d82ab;
+}
+
+.content-table-video .content-table-header {
+    background: #ee5921;
+}
+
+.content-table-image .content-table-header {
+    background: #484848;
+}
+
+.content-table-info .content-table-header {
+    background: #96c950;
+}
+
+
+/*
+ * -- PRICING TABLE HEADER --
+ * By default, a header is black/white, and has some styles for its <h2> name.
+ */
+.content-table-header {
+    background: #111;
+    color: #fff;
+}
+    .content-table-header h2 {
+        margin: 0;
+        padding-top: 2em;
+        font-size: 1em;
+        font-weight: normal;
+
+    }
+
+
+/*
+ * -- PRICING TABLE type --
+ * Styles for the type and the corresponding <span>per month</span>
+ */
+.content-table-type {
+    font-size: 6em;
+    margin: 0.2em 0 0;
+    font-weight: 100;
+}
+    .content-table-type span {
+        display: block;
+        text-transform: uppercase;
+        font-size: 0.2em;
+        padding-bottom: 2em;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.5);
+        *color: #fff;
+    }
+
+
+
+/*
+ * -- PRICING TABLE LIST --
+ * Each pricing table has a <ul> which is denoted by the .pricing-table-list class
+ */
+.content-table-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+/*
+ * -- PRICING TABLE LIST ELEMENTS --
+ * Styles for the individual list elements within each content table
+ */
+.content-table-list li {
+    padding: 0.8em 0;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+
+/*
+ * -- CONTENT TABLE BUTTON --
+ * Styles for the "Choose" button at the bottom of a CONTENT table.
+ * This inherits from Pure Button.
+ */
+.button-choose {
+    border: 1px solid #ccc;
+    width: 60%;
+    border-radius: 22px;
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+}
+
+.information-head {
+    color: black;
+    font-weight: 500;
+}
+
+.footer {
+    background: #111;
+    color: #888;
+    text-align: center;
+}
+    .footer a {
+        color: #ddd;
+    }
+
+/*BACK boton*/
+#back-container {
+    background-color: rgba(241,142,0,0.01);
+    padding-left: 0px;
+}
+
+#back {
+    color: rgba(238, 95, 60, 0.59)
+}
+
+#back:hover {
+    color: rgba(238, 89, 33, 0.94)
+}
+
+/* Logos and Client data
+ */
+
+.logo {
+    width: 35vw;
+}

@@ -136,7 +136,11 @@ a.pure-button-primary {
     background-size: auto;
     background-position: center;
 
+    top: 0;
+
+    height: 65vh;
     width: 100%;
+
     margin-bottom: 3em;
     display: table;
     overflow: hidden;
@@ -149,23 +153,21 @@ a.pure-button-primary {
     /* The following styles are required for the "scroll-over" effect
     width: 100%;
     */
-    height: 75%;
-    top: 0;
+
 }
 .splash-img {
-    background: transparent url("../img/ruta_informatica.jpg") 0 0 no-repeat ;
     text-align: right;
     background-size: auto;
-    background-position: center;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/ruta_informatica.jpg', sizingMethod='scale');
+    background: transparent url("../img/ruta_informatica.jpg") no-repeat center;
 
+    height: 85vh;
     width: 100%;
+
     margin-bottom: 3em;
     display: table;
     overflow: hidden;
     position: fixed !important;
 
-    height: 80%;
     top: 0;
     -webkit-filter: blur(3px);
     -moz-filter: blur(3px);
@@ -176,16 +178,26 @@ a.pure-button-primary {
 
 .splash {
     /* absolute center .splash within .splash-container */
-    width: 80%;
-    height: 50%;
+    width: 80vw;
+    color: #FFFFFF !important;
     margin: auto;
+    padding-top: 5%;
     position: absolute;
-    top: 0px; left: 0; bottom: 0; right: 0;
+    top: 10vh; left: 0; bottom: 0; right: 0;
     text-align: center;
+    background-color: #f18e00;
     text-transform: uppercase;
+    border-radius: 15%;
 }
 
-/* This is the main heading that appears on the blue section */
+.splash-logo {
+    max-width: 250px;
+    max-height: 250px;
+    width: 80%;
+}
+
+/*
+/* This is the main heading that appears on the blue section
 .splash-head {
     background-color: #1f8dd6;
     font-size: 20px;
@@ -197,6 +209,8 @@ a.pure-button-primary {
     border-radius: 5px;
     line-height: 1em;
 }
+
+*/
 
 /* This is the subheading that appears on the blue section */
 .splash-subhead {
