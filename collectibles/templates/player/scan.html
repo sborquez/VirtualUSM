@@ -71,7 +71,7 @@
 {% block scripts %}
 <script src="{% static 'js/instascan.min.js' %}"></script>
  <script type="text/javascript">
-      let scanner = new Instascan.Scanner({ video: document.getElementById('qr-video') });
+      let scanner = new Instascan.Scanner({ video: document.getElementById('qr-video') , mirror:false });
       let camera = 0;
       let n_cameras = 0;
       scanner.addListener('scan', function (content) {
