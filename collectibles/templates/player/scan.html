@@ -9,7 +9,7 @@
             height: 100%;
             width: 100%;
             position: fixed;
-            background-color: rgba(255, 255, 255, 0.48);
+            background: rgba(255, 255, 255, 0) url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/dark_embroidery.png);
         }
 
         .loading_background {
@@ -28,6 +28,15 @@
             margin-left: auto;
             margin-right: auto;
             background-size: cover;
+        }
+
+        body {
+            background-image: url("{% static 'img/nosignal.gif' %}")!important;
+            background-size: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
         }
 
         .video-container {
@@ -55,7 +64,6 @@
 {% block content %}
     <div class="background-container">
         <img src="{% static 'img/cargando.gif' %}" class="loading_background center" id="loading" alt="Cargando..."/>
-        <img src="{% static 'img/nosignal.gif' %}" class="nosignal_background center" id="nosignal" alt="Sin acceso a camara"/>
         <!--<img class="gif_background" id="error"/>-->
     </div>
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
@@ -101,6 +109,7 @@
 {% block scripts %}
 <script src="{% static 'js/instascan.min.js' %}"></script>
  <script type="text/javascript">
+
       let scanner = new Instascan.Scanner({ video: document.getElementById('qr-video') , mirror:false });
       let camera = 0;
       let n_cameras = 0;
@@ -109,44 +118,46 @@
         document.getElementById("form").submit();
       });
       Instascan.Camera.getCameras().then(function (cameras) {
-        document.getElementById("nosigal").style.display = 'none';
+        //document.getElementById("nosigal").style.display = 'none';
         n_cameras = cameras.length;
         if (n_cameras > 0) {
-          if (n_cameras === 2) {
-            camera = 1;
-          } else if (n_cameras === 1) {
-            document.getElementById("camera-button").style.display = 'none';
-          }
-          scanner.start(cameras[camera]);
-          document.getElementById("loading").style.display = 'none';
+
+            if (n_cameras === 2) {
+                camera = 1;
+            } else if (n_cameras === 1) {
+                scanner.start(cameras[camera]);
+               //    document.getElementById("nosigal").style.display = '';
+
+            } else {
+                console.error('No cameras found.');
+            }
         } else {
-          document.getElementById("loading").style.display = 'none';
-          document.getElementById("nosigal").style.display = '';
-          console.error('No cameras found.');
+            document.getElementById("loading").style.backgroundImage = "url({% static 'img/nosignal.gif' %})";
+
         }
       }).catch(function (e) {
-        document.getElementById("loading").style.display = 'none';
+//        document.getElementById("loading").style.display = 'none';
 
-        document.getElementById("nosigal").style.display = '';
+                document.getElementById("loading").style.backgroundImage = "url({% static 'img/nosignal.gif' %})";
+
         console.error(e);
       });
 
       function swap_cameras() {
         scanner.stop();
-        document.getElementById("nosigal").style.display = 'none';
-        document.getElementById("loading").style.display = '';
+        //document.getElementById("nosigal").style.display = 'none';
+        //document.getElementById("loading").style.display = '';
         Instascan.Camera.getCameras().then(function (cameras) {
           if (n_cameras > 0) {
             camera = (camera + 1)%n_cameras;
             scanner.start(cameras[camera])
           } else {
             document.getElementById("loading").style.display = 'none';
-            document.getElementById("nosigal").style.display = '';
+            //document.getElementById("nosigal").style.display = '';
             console.error('No cameras found.');
           }
         }).catch(function (e) {
           document.getElementById("loading").style.display = 'none';
-          document.getElementById("nosigal").style.display = '';
           console.error(e);
         });
       }

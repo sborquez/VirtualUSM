@@ -252,9 +252,12 @@ class MapView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(player):
+    def prepare_context_data(player, locations):
+
         ctx = {
             'player_id': player.player_id,
+            'locations': locations,
+            'n_locations': len(locations),
             'player': player,
         }
         return ctx
@@ -264,10 +267,11 @@ class MapView(View):
     def get(request):
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
+        _, locations = player.get_locations()
         return render(
             request,
             MapView.template_name,
-            context=MapView.prepare_context_data(player)
+            context=MapView.prepare_context_data(player, locations)
         )
 
 

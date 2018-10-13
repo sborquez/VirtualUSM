@@ -32,7 +32,11 @@ class Location(models.Model):
 
     # TODO: Podemos usar coordenas si es que hay tiempo, por ahora es referente a la imagen del mapa
     # coordinates (now are from the map image)
+
+    MIN_X, MAX_X = 0, 1348
     x = models.IntegerField(default=0)
+
+    MIN_Y, MAX_Y = 0, 1198
     y = models.IntegerField(default=0)
 
     # image
@@ -189,7 +193,7 @@ class Player(models.Model):
 
         locations = []
         for ac in acquired_items:
-            locations.append(ac.item)
+            locations.append(ac.location)
         return acquired, locations
 
     def __str__(self):
