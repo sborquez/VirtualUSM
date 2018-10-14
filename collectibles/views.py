@@ -185,7 +185,7 @@ class PlayerView(View):
         player = Player.objects.get(player_id=player_id)
         _, items = player.get_items()
 
-        err = request.GEt.get("error", None)
+        err = request.GET.get("error", None)
         if err == "loc":
             note = create_notification("alert", "Ups!", "Aún no has visitado este lugar.")
         else:
