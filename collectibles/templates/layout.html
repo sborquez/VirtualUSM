@@ -11,6 +11,52 @@
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 
     <!-- Add special CSS file -->
+    <style>
+        .notification-container {
+            position: fixed;
+            width: 70vw;
+            height: 70px;
+            right: 0;
+            border-radius: 15px 0 0 15px;
+            top: 6vh;
+            box-shadow: 10px 10px 10px rgba(81, 81, 81, 0.69);
+        }
+
+        .alert-notification {
+            background-color: rgba(234, 103, 93, 0.96);
+        }
+
+        .success-notification {
+            background-color: rgba(111, 212, 111, 0.96);
+        }
+
+        .notification-icon {
+            float: left;
+            width: 30%;
+            color: #f3f3f3;
+            margin-top: 5%;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .notification-content {
+            float: right;
+            width: 70%;
+        }
+
+        .notification-content h1 {
+            font-size: 16px;
+            margin-bottom: 0;
+            color: #f5f5f5;
+        }
+
+        .notification-content p {
+            color: #f0f0f0;
+            line-height: 10px;
+            font-size: 12px;
+            margin: 0;
+        }
+    </style>
     {% block style %}
 
     {% endblock %}
@@ -27,11 +73,41 @@
     <!--content-->
     {% block content %}
     {% endblock %}
+     <!--notidication -->
+    <!--<div class="notification-container alert-notification" id="notification" onclick="close_notification()">
+        <div class="notification-icon"><i class="fas fa-exclamation-triangle fa-3x"></i></div>
+        <div class="notification-content">
+            <h1>No registrado</h1>
+            <p>Debes iniciar sesión para acceder al contenido.</p>
+        </div>
+    </div>
+    -->
+    {% if notification %}
+        {% if notification.type == "alert" %}
+            <div class="notification-container alert-notification" id="notification" onclick="close_notification()">
+            <div class="notification-icon"><i class="fas fa-exclamation-triangle fa-3x"></i></div>
+        {% elif notification.type == "success" %}
+            <div class="notification-container success-notification" id="notification" onclick="close_notification()">
+            <div class="notification-icon"><i class="far fa-check-circle fa-3x"></i></div>
+        {% endif %}
+            <div class="notification-content">
+                <h1>{{ notification.title }}</h1>
+                <p>{{ notification.content }}.</p>
+            </div>
+        </div>
+    {% endif %}
   </body>
   <footer>
     <!--js scripts-->
     {% block scripts %}
     {% endblock %}
+
+    <!--notification -->
+    <script>
+        function close_notification() {
+            document.getElementById("notification").style.display = "none";
+        }
+    </script>
   </footer>
 
 </html>

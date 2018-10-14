@@ -41,12 +41,10 @@ def is_player(view_request_handler):
             else:
                 del request.session["player_id"]
                 respond = redirect('about')
-                # TODO mostrar mensaje de error
                 respond = add_get_variables(respond, error="deactivate_player")
                 return respond
         else:
             respond = redirect('about')
-            # TODO mostrar mensaje de error
             respond = add_get_variables(respond, error="no_player")
             return respond
     return _new_view_method
@@ -64,8 +62,11 @@ def add_get_variables(respond, **kwargs):
     return respond
 
 
-# Create your views here.
+def create_notification(type_, title, content):
+    return {"type": type_, "title": title, "content": content}
 
+
+# Create your views here.
 # Index view
 class AboutView(View):
     """
@@ -76,19 +77,33 @@ class AboutView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(player_id):
+    def prepare_context_data(player_id, notification):
         ctx = {
             "player_id": player_id,
+            "notification": notification
         }
         return ctx
 
     @staticmethod
     def get(request):
         player_id = request.session.get("player_id", 0)
+
+        # Prepare notification
+        err = request.GET.get("error", None)
+        succ = request.GET.get("logout", None)
+        if err == "deactivate_player":
+            note = create_notification("alert", "No registrardo", "Tu cuenta fué desactivada")
+        elif err == "no_player":
+            note = create_notification("alert", "No registrardo", "Debes registrarte para jugar")
+        elif succ == "success":
+            note = create_notification("success", "Exito!", "Se ha eliminado su cuenta")
+        else:
+            note = None
+
         return render(
             request,
             AboutView.template_name,
-            context=AboutView.prepare_context_data(player_id)
+            context=AboutView.prepare_context_data(player_id, note)
         )
 
 
@@ -151,13 +166,15 @@ class PlayerView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(player, items):
+    def prepare_context_data(player, items, notification):
         ctx = {
             'player_id': player.player_id,
-            'nick': player,
+            'progress': int(100*len(items)/ settings.CLIENT.locations),
+            'player': player,
             'items': items,
             'total_items': settings.CLIENT.locations,
-            'acquired_items': len(items)
+            'acquired_items': len(items),
+            'notification': notification
         }
         return ctx
 
@@ -167,10 +184,17 @@ class PlayerView(View):
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
         _, items = player.get_items()
+
+        err = request.GEt.get("error", None)
+        if err == "loc":
+            note = create_notification("alert", "Ups!", "Aún no has visitado este lugar.")
+        else:
+            note = None
+
         return render(
             request,
             PlayerView.template_name,
-            context=PlayerView.prepare_context_data(player, items)
+            context=PlayerView.prepare_context_data(player, items, note)
         )
 
     @staticmethod
@@ -184,7 +208,6 @@ class PlayerView(View):
         del request.session["player_id"]
 
         respond = redirect("about")
-        # TODO mostrar mensaje de logout
         respond = add_get_variables(respond, logout="success")
         return respond
 
@@ -199,10 +222,11 @@ class ScanView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(player):
+    def prepare_context_data(player, notification):
         ctx = {
             'player_id': player.player_id,
             'player': player,
+            'notification': notification
         }
         return ctx
 
@@ -211,10 +235,16 @@ class ScanView(View):
     def get(request):
         player_id = request.session["player_id"]
         player = Player.objects.get(player_id=player_id)
+
+        err = request.GET.get("error", None)
+        if err == "noqr":
+            note = create_notification("alert", "Ups!", "Este no es un QR válido")
+        else:
+            note = None
         return render(
             request,
             ScanView.template_name,
-            context=ScanView.prepare_context_data(player)
+            context=ScanView.prepare_context_data(player, note)
         )
 
     @staticmethod
@@ -238,7 +268,6 @@ class ScanView(View):
         else:
             respond = redirect('scan')
             # add a get variable to display invalid qr
-            # TODO mostrar mensaje de success
             respond = add_get_variables(respond, error="noqr")
             return respond
 
@@ -246,7 +275,6 @@ class ScanView(View):
 class MapView(View):
     """
     GET: render a UTFSM's map, display player's position.
-    # TODO: Definir si usar un mapa de verdad usando la ubicación
     """
     template_name = 'player/map.html'
 
@@ -289,6 +317,11 @@ class CongratulationsView(View):
 
     @is_player
     def get(self, request):
+        player_id = request.session["player_id"]
+        player = Player.objects.get(player_id=player_id)
+        locations, _ = player.get_locations()
+        if locations < settings.CLIENT.locations:
+            redirect('player')
         # TODO determinar si efectivamente el jugador ha ganado
         return render(
             request,
@@ -305,12 +338,13 @@ class LocationView(View):
 
     @staticmethod
     @basic_context_data
-    def prepare_context_data(location, content):
+    def prepare_context_data(location, content, notification):
         ctx = {
             "location": location,
             "location_name": location.name.title(),
             "content": content,
             "content_title": content.title.title(),
+            "notification": notification
         }
         return ctx
 
@@ -326,15 +360,22 @@ class LocationView(View):
             player = Player.objects.get(player_id=player_id)
 
             if player.has_location(location):
+                added = request.GET.get("added", None)
+                if added == "true":
+                    note = create_notification("success", "+1 Sticker", "Se agregó un sticker a la colección")
+                elif added == "false":
+                    note = None
+                else:
+                    note = None
+
                 # show location and item
                 content = location.get_content()
                 return render(
                     request,
                     LocationView.template_name,
-                    context=LocationView.prepare_context_data(location, content)
+                    context=LocationView.prepare_context_data(location, content, note)
                 )
         # invalid location name or player didn't scan qr code yet
         respond = redirect("player")
-        # TODO mostrar mensaje de error
         respond = add_get_variables(respond, error="loc")
         return respond
