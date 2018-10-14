@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% load to_underscore %}
+{% load to_title %}
 {% load static %}
 
 {% block style %}
@@ -8,24 +8,124 @@
     <link rel="stylesheet" href="{% static 'css/player.css' %}">
     <style>
         .player-container {
+
             background-color: rgb(227, 227, 227);
             border-radius: 15px;
-            padding: 20px;
-            width: 80%;
+            width: 90vw;
+            height: 90px;
             margin-top: 60px !important;
             margin: auto;
-            text-align: center;
 
         }
+
+        .player-icon {
+            float: left;
+            left: 10px;
+            width: 28%;
+            height: 100%;
+            vertical-align: middle;
+            background: url("{% static 'img/app.png' %}") no-repeat;
+            background-size: contain;
+        }
+
+        .player-info {
+            background-color: rgba(39, 39, 39, 0.07);
+            padding-left: 2%;
+            padding-right: 2%;
+            float: right;
+            width: 68%;
+            height: 100%;
+        }
+
+        .player-info h1 {
+            font-family: 'Raleway', sans-serif;
+            overflow: hidden;
+            color: #464646;
+            font-size: 18px;
+        }
+
+        .player-info h1 b {
+            font-size: 12px;
+        }
+
+        .progress-bar {
+            font-family: 'Playfair Display', serif;
+            border-radius: 15px;
+            width: 100%!important;
+            height: 25px;
+            background-color: rgba(241, 142, 0, 0.33) !important;
+
+        }
+
+        .progress {
+            border-radius: 15px 0 0 15px;
+            height: 100%;
+            width: {{ progress }}%;
+            background-color: #ffaa0e;
+            color: #fffdc1;
+            text-align: center;
+        }
+
+        .progress b {
+                font-size: 12px;
+                text-align: center;
+            }
         .items-container {
             background-color: rgb(227, 227, 227);
             border-radius: 15px;
-            padding: 20px;
-            width: 80%;
-            margin-top: 10px!important;
+            width: 90%;
+            height: auto;
+            margin-top: 30px!important;
             margin: auto;
             text-align: center;
+        }
 
+        .items-container h2 {
+            margin-top: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: rgba(234, 234, 234, 0.89) !important;
+            background-color: rgb(241, 142, 0);
+            border-radius: 15px 15px 0 0 ;
+        }
+
+        .item {
+            height: 140px;
+            width: 40%;
+            padding: 10px 5%;
+            text-align: center;
+        }
+
+        .items-container tr {
+            width: 40%;
+        }
+
+        .item img {
+            height: 120px;
+            width: 100%;
+            border-radius: 10px 10px 0 0 ;
+            background-color: rgba(255, 170, 14, 0.26);
+            box-shadow: 2px 0px 2px #515151;
+
+        }
+
+        .item h3 {
+            color: #2c2c2c;
+            background-color: rgb(252, 252, 252);
+            font-size: 12px;
+            margin: 0;
+            width: 100%;
+            border-radius: 0 0 10px 10px;
+           box-shadow: 2px 2px 2px #515151;
+        }
+
+        .delete-user-buttom {
+            background-color: #df2a24;
+            color: white;
+            margin-top: 1px;
+            padding: 5px;
+            border-radius: 50%;
+            /*display: none;*/
         }
     </style>
 {% endblock %}
@@ -38,38 +138,48 @@
 {% block content %}
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading heading" href="/">{{ str_app }}</a>
-            <div id="delete_user">
-                {% url 'player' as player_url %}
-                <form action="{{ player_url }}" method="post">
-                  {% csrf_token %}
-                  <button type="submit"><i class="far fa-trash-alt"></i> Eliminar cuenta</button><br>
-                </form>
-            </div>
+        <div id="delete_user" style="float: right">
+            {% url 'player' as player_url %}
+            <form action="{{ player_url }}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="delete-user-buttom"><i class="far fa-trash-alt"></i></button><br>
+            </form>
+        </div>
     </div>
 
     <div class="ribbon l-box-lrg player-container center">
-        <div class="icon-container">
-            <i class="icon far fa-user fa-2x"></i>
+        <div class="player-icon">
+            <!--<i class="icon far fa-user fa-4x"></i>-->
         </div>
-        <h2>{{ player.nick }}</h2>
-        <h3>{{ player.nick_suffix }}</h3>
-        <h3>{{ acquired_items}}/{{ total_items }}</h3>
+        <div class="player-info">
+            <h1>{{ player.nick }}<b>{{ player.nick_suffix }}</b></h1>
+            <div class="progress-bar">
+                <div class="progress"><b>Stickers:{{ acquired_items}}/{{ total_items }}</b></div>
+            </div>
+        </div>
     </div>
     <div class="items-container">
+        <h2>Colección</h2>
+        {% if acquired_items == 0 %}
+            <h5>Aún no tienes <b>Stickers</b></h5>
+        {% endif %}
         <table>
-            <tr>
-                <th>name</th><th>description</th>
-                <th>img</th><th>location</th>
-            </tr>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.name }} </td><td>{{ item.description }}</td>
-                <td><img width="100" height="100"  alt="{{ item.name }}" src="{% static item.icon_path %}"></td>
-                <td><a href="location/{{ item.location.name|to_underscore }}">{{ item.location.name }}</a></td>
-            </tr>
-            {% endfor %}
+            {% for item in items  %}
+              {% if forloop.counter0|divisibleby:2 %}
+                <tr>
+              {% endif %}
+                  <td class="item">
+                    <img src="{% static item.icon_path %}">
+                    <h3>{{ item.name|to_title }}</h3>
+                  </td>
+              {% if forloop.counter0|divisibleby:2 %}
+                {% if acquired_items == 1 %}
+                      <td class="item"></td>
+                {% endif %}
+                  </tr>
+              {% endif %}
+              {% endfor %}
         </table>
-
     </div>
 
     <div id="navBar-container" class="menu-wrapper">
