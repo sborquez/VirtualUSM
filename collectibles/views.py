@@ -322,7 +322,6 @@ class CongratulationsView(View):
         locations, _ = player.get_locations()
         if locations < settings.CLIENT.locations:
             redirect('player')
-        # TODO determinar si efectivamente el jugador ha ganado
         return render(
             request,
             CongratulationsView.template_name,
