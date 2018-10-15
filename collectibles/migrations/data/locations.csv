@@ -1,0 +1,19 @@
+name,description,x,y,img_path
+aula tecnológica,,980,1010,img/locations/Aula_Tecnologica.jpg
+biblioteca,,600,780,img/locations/Biblioteca.jpg
+cafeteria,,900,640,img/locations/Cafeteria.jpg
+cancha,,300,690,img/locations/Cancha.jpg
+cañon,,1100,940,img/locations/canon.jpg
+ciac,,890,500,img/locations/CIAC.jpg
+federico santa maria,,660,1020,img/locations/El_tio_fede.jpeg
+edificio f,,1000,1010,img/locations/Entrada_F.jpg
+escaleras al patio,,800,930,img/locations/Escalera.jpg
+patio central,,750,740,img/locations/Escudo.jpg
+estatua,,520,680,img/locations/estatua.jpg
+edificio a,,660,920,img/locations/Frontis.jpeg
+patio de los ceibos,,900,920,img/locations/Fuente.jpg
+gomero,,500,560,img/locations/Gomero.jpg
+hall c,,670,420,img/locations/Hall_C.jpg
+la ruta informática,,735,840,img/locations/La_ruta.jpg
+labcomp,,880,990,img/locations/Labcomp.jpg
+Labpro,,925,990,img/locations/Labpro.jpg
