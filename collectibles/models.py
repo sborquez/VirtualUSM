@@ -173,7 +173,7 @@ class Player(models.Model):
     def has_location(self, location):
         """check if the player already scanned location's qr"""
 
-        return self.acquireditem_set.filter(item__location=location).count() > 0
+        return self.acquireditem_set.filter(location=location).count() > 0
 
     def get_items(self):
         """return how many items it has and the items"""

@@ -70,6 +70,22 @@
                 font-size: 12px;
                 text-align: center;
             }
+
+        .progress-complete {
+            border-radius: 15px;
+            height: 100%;
+            width: {{ progress }}%;
+            background-color: #009eff;
+            color: #fffdc1;
+            text-align: center;
+        }
+
+        .progress-complete b {
+                font-size: 12px;
+                text-align: center;
+            }
+
+
         .items-container {
             background-color: rgb(227, 227, 227);
             border-radius: 15px;
@@ -154,7 +170,11 @@
         <div class="player-info">
             <h1>{{ player.nick }}<b>{{ player.nick_suffix }}</b></h1>
             <div class="progress-bar">
-                <div class="progress"><b>Stickers:{{ acquired_items}}/{{ total_items }}</b></div>
+                {% if acquired_items >= total_items %}
+                    <div class="progress-complete"><b>Stickers:{{ acquired_items}}/{{ total_items }}</b></div>
+                 {% else %}
+                    <div class="progress"><b>Stickers:{{ acquired_items}}/{{ total_items }}</b></div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -166,6 +186,9 @@
         <table>
             {% for item in items  %}
               {% if forloop.counter0|divisibleby:2 %}
+                {% if forloop.counter0 != 0 %}
+                  </tr>
+                {% endif %}
                 <tr>
               {% endif %}
                   <td class="item">
@@ -176,7 +199,6 @@
                 {% if acquired_items == 1 %}
                       <td class="item"></td>
                 {% endif %}
-                  </tr>
               {% endif %}
               {% endfor %}
         </table>

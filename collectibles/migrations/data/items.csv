@@ -1,0 +1,21 @@
+name;description;icon_path;location
+android;Android es un sistema operativo basado en el núcleo Linux diseñado para dispositivos móviles;img/stickers/android.png;aula tecnológica
+apple;iPhone, iPad, Mac, entre otros, diseñados y producidos por Apple Inc.;img/stickers/apple.png;cafeteria
+c;EL lenguaje de programación C, se usa principalmente en el desarrollo de sistemas operativos y compiladores;img/stickers/c.png;biblioteca
+cpp;'C más más', es C pero con clases.;img/stickers/cpp.png;edificio a
+datascience;Quien posee los datos domina al futuro;img/stickers/datascience.png;cañon
+facebook;Facebook y las redes sociales, uniendo al mundo con cada like;img/stickers/facebook.png;comedores
+git;;img/stickers/git.png;cancha
+gnu;;img/stickers/gnu.png;piscina
+go;;img/stickers/go.png;escaleras al patio
+google;;img/stickers/google.png;hall c
+java;;img/stickers/java.png;patio central
+linux;;img/stickers/linux.png;la ruta informática
+localhost;No hay lugar como el hogar;img/stickers/localhost.png;edificio f
+microsoft;;img/stickers/microsoft.png;gomero
+python;;img/stickers/python.png;ciac
+stackoverflow;;img/stickers/stackoverflow.png;labcomp
+alan turing;;img/stickers/turingmachine.png;estatua
+utfsm;;img/stickers/UTFSM.png;federico santa maria
+web developer;;img/stickers/webtrio.png;labpro
+yes we code;;img/stickers/yeswecode.png;patio de los ceibos

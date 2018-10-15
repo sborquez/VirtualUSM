@@ -8,6 +8,7 @@
     <style>
     .banner {
         background: transparent url("{% static location.img_path %}") no-repeat center;
+        background-size: cover;
     }
     </style>
 {% endblock %}
@@ -85,7 +86,7 @@
                         </span>
                     </div>
                     <ul class="content-table-list">
-                        <li>{{ content_title }}</li>
+                        <li>{{ content.description }}</li>
                         <li>
                             <a href="{{ content.content }}" target="_blank">
                             <img style="width: 100%;" src="{{ content.content }}" alt="{{ content_title }}"/>
@@ -109,9 +110,12 @@
                 </div>
                 {% endif %}
                 <h4>{{ str_app }}</h4>
+                <div class="center">
+                    <img alt="File Icons" class="pure-img-responsive logo" src="{% static 'img/app.png' %}"><br>
+                    <a href="https://www.facebook.com/PromoInformaticaUTFSM/"><h5><i style="padding:3px 5px 3px; background-color: rgba(22,22,22,0.81);color: #d2d2d2; border-radius: 5px" class="fab fa-facebook-square"></i> @PromoInformaticaUTFSM</h5></a>
+                    <a href="https://www.instagram.com/promoinfutfsm/"><h5><i style="padding:3px 5px 3px; background-color: rgba(22,22,22,0.81);color: #d2d2d2; border-radius: 5px" class="fab fa-instagram"></i> @Promoinfutfsm</h5> </a>
+                </div>
 
-                <img alt="File Icons" class="pure-img-responsive logo" src="{% static 'img/app.png' %}">
-                <h5>Promocion</h5>
             </div>
         <div class="pure-menu-fixed pure-button" id="back-container">
             <span class="fa-stack fa-2x">
