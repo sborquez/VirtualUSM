@@ -6,16 +6,16 @@ cancha;;300;690;img/locations/Cancha.jpg
 cañon;El patio del cañon, conocido por... el cañon.;1100;980;img/locations/canon.jpg
 ciac;En el edificio K se encuenta el ciac (Centro Integrado de Aprendizaje en Ciencias Básicas) para ayudar a los nuevos estudiantes.;890;500;img/locations/CIAC.jpg
 federico santa maria;Federico Santa María Carrera, filántropo, empresario y fundador de nuestra universidad.;660;1020;img/locations/El_tio_fede.jpeg
-edificio f;;1000;1010;img/locations/Entrada_F.jpg
-escaleras al patio;;800;930;img/locations/Escalera.jpg
+edificio f;Hogar del departamento de informática, matemática e industrias;1000;1010;img/locations/Entrada_F.jpg
+escaleras al patio;Al menos no es tan grande como la escelara españa;800;930;img/locations/Escalera.jpg
 patio central;;750;740;img/locations/Escudo.jpg
-estatua;;520;680;img/locations/estatua.jpg
-edificio a;;660;920;img/locations/Frontis.jpeg
-patio de los ceibos;;900;920;img/locations/Fuente.jpg
-gomero;;500;560;img/locations/Gomero.jpg
-hall c;;670;420;img/locations/Hall_C.jpg
-la ruta informática;;760;840;img/locations/La_ruta.jpg
-labcomp;;950;1010;img/locations/Labcomp.jpg
-labpro;;900;1010;img/locations/Labpro.jpg
-piscina;;660;600;img/locations/Piscina.jpg
-comedores;;820;760;img/locations/Casino.jpg
+estatua;El jugador de chueca;520;680;img/locations/estatua.jpg
+edificio a;Imponente se levanta el edificio A, imágen icónica de Casa Central.;660;920;img/locations/Frontis.jpeg
+patio de los ceibos;Lugar perfecto para trabajar disfrutando del verde y el viento costero;900;920;img/locations/Fuente.jpg
+gomero;Un espacio de recreación al aire libre;500;560;img/locations/Gomero.jpg
+hall c;La antigua estación de carga, ahora el núcleo de la convivencia sansana.;670;420;img/locations/Hall_C.jpg
+la ruta informática;Ven a visitarnos, no te arrepentirás;760;840;img/locations/La_ruta.jpg
+labcomp;El laboratorio de computación ofrece sus servicios a los alumnos de informática, un lugar perfecto para estudiar y compartir;950;1010;img/locations/Labcomp.jpg
+labpro;El laboratorio de proyectos;900;1010;img/locations/Labpro.jpg
+piscina;Excelente para las tarde de verano.;660;600;img/locations/Piscina.jpg
+comedores;Los comedores de la universidad.;820;760;img/locations/Casino.jpg
