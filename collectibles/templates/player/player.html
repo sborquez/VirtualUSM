@@ -153,7 +153,7 @@
 <!--content-->
 {% block content %}
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading heading" href="/">{{ str_app }}</a>
+        <a class="pure-menu-heading heading" href="/"><img src="{% static 'img/infoquest.png' %}" style="height: 22px"></a>
         <div id="delete_user" style="float: right">
             {% url 'player' as player_url %}
             <form action="{{ player_url }}" method="post">

@@ -73,15 +73,6 @@
     <!--content-->
     {% block content %}
     {% endblock %}
-     <!--notidication -->
-    <!--<div class="notification-container alert-notification" id="notification" onclick="close_notification()">
-        <div class="notification-icon"><i class="fas fa-exclamation-triangle fa-3x"></i></div>
-        <div class="notification-content">
-            <h1>No registrado</h1>
-            <p>Debes iniciar sesión para acceder al contenido.</p>
-        </div>
-    </div>
-    -->
     {% if notification %}
         {% if notification.type == "alert" %}
             <div class="notification-container alert-notification" id="notification" onclick="close_notification()">

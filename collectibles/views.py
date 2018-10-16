@@ -151,7 +151,10 @@ class StartView(View):
             # Save id player in session
             request.session["player_id"] = new_player.player_id
 
-            return redirect('player')
+            respond = redirect('player')
+            respond = add_get_variables(respond, added="true")
+            return respond
+
         respond = redirect('about')
         respond = add_get_variables(respond, error="invalid")
         return respond
@@ -186,8 +189,11 @@ class PlayerView(View):
         _, items = player.get_items()
 
         err = request.GET.get("error", None)
+        added = request.GET.get("added", None)
         if err == "loc":
             note = create_notification("alert", "Ups!", "Aún no has visitado este lugar.")
+        elif added == "true":
+            note = create_notification("success", "Nuevo Jugador", f"Recuerda tu nueva id:{player.nick_suffix}")
         else:
             note = None
 
